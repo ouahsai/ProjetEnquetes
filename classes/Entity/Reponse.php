@@ -2,6 +2,6 @@
 
 namespace Entity;
 
-class Reponses {
+class Reponse {
     //put your code here
 }

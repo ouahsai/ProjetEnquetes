@@ -5,6 +5,6 @@
 namespace Mapper;
 
 
-class QuestionsMapper {
+class QuestionMapper {
     //put your code here
 }

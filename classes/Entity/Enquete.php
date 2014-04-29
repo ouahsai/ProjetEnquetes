@@ -2,6 +2,6 @@
 
 namespace Entity;
 
-class Enquetes {
+class Enquete {
     //put your code here
 }

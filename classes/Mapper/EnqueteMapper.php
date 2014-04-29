@@ -1,9 +1,7 @@
 <?php
 
-
 namespace Mapper;
 
-
-class ReponsesMapper {
+class EnqueteMapper {
     //put your code here
 }
