@@ -9,9 +9,10 @@
     </head>
     <body>
         <div class="container">
-        <h3>S'inscrire</h3>
+            <h1 class=""></h1>
+        <h3><span class="glyphicon glyphicon-user"></span> S'inscrire</h3>
         <form method="POST" action="user.php" class="form-horizontal">
-            <div class="form-group">
+             <div class="form-group">
                 <label class="col-sm-3 control-label" for="identifiant">Votre identifiant (e-mail)</label>
                 <div class="col-sm-9">
                 <input class="form-control" type="email" name="identifiant" id="identifiant" placeholder="Entrer votre e-mail">
@@ -30,7 +31,7 @@
             </div>
 	</form>
             
-        <h3>Se connecter</h3>
+        <h3><span class="glyphicon glyphicon-save"></span> Se connecter</h3>
         <form method="POST" action="user.php" class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="identifiant">Votre identifiant (e-mail)</label>
