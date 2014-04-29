@@ -6,10 +6,16 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/extra.css">
     </head>
     <body>
-        <div class="container">
-            <h1 class=""></h1>
+        <div id="unauth">
+	<div id="main" class="container">
+            
+            <div class="heading">
+            <h1>Accès à la création d'enquêtes</h1>
+            </div>
+        <div class="well-big">    
         <h3><span class="glyphicon glyphicon-user"></span> S'inscrire</h3>
         <form method="POST" action="user.php" class="form-horizontal">
              <div class="form-group">
@@ -51,7 +57,8 @@
                     </div>
             </div>
 	</form>
-            
+        </div>
+        </div>
         </div>
     </body>
 </html>
