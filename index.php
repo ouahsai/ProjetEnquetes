@@ -16,7 +16,7 @@
             <h1>Accès à la création d'enquêtes</h1>
             </div>
         <div class="well-big">    
-        <h3><span class="glyphicon glyphicon-user"></span> S'inscrire</h3>
+        <h2><span class="glyphicon glyphicon-save"></span> S'inscrire</h2>
         <form method="POST" action="user.php" class="form-horizontal">
              <div class="form-group">
                 <label class="col-sm-3 control-label" for="identifiant">Votre identifiant (e-mail)</label>
@@ -37,7 +37,7 @@
             </div>
 	</form>
             
-        <h3><span class="glyphicon glyphicon-save"></span> Se connecter</h3>
+        <h2><span class="glyphicon glyphicon-user"></span> Se connecter</h2>
         <form method="POST" action="user.php" class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="identifiant">Votre identifiant (e-mail)</label>
