@@ -1,0 +1,7 @@
+/* Overwrite CSS Bootstrap rules */
+.container > .page-header { margin-top: 120px; }
+.navbar { min-height: 100px; }
+.row { margin: 0; }
+
+/* New styles */
+.connection { border-radius: 4px; background: none repeat scroll 0 0 #fbfbfb; border: 1px solid #ccc; }
