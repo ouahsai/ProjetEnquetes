@@ -4,29 +4,40 @@ require_once './includes/autoload.php';
 $message = "";
 
 //TODO errors 
-if (isset($_POST['lastname'],
-          $_POST['firstname'],
-          $_POST['join_email'], 
-          $_POST['join_pwd'])) {
+if (isset($_POST['lastname'], $_POST['firstname'],
+          $_POST['join_email'], $_POST['join_pwd'])) 
+{
     
-    $pdo = \Manager\PDO::pdoConnection();
-    $userService = new \Manager\UserService($pdo, 
-        $_POST['join_email'], $_POST['join_pwd'],
-        $_POST['lastname'], $_POST['firstname']);
+    $utilisateur = new \Entity\Utilisateur();
     
-    $userService->join();
+    // ci dessous peut s'automatiser avec un Hydrateur (en anglais Hydrator)
+    $utilisateur->setNom($_POST['lastname'])
+                ->setPrenom($_POST['firstname'])
+                ->setEmail($_POST['join_email'])
+                ->setPassword($_POST['join_pwd']);
+    
+    $mapper = new \Mapper\UtilisateurMapper();
+    $mapper->subscription($utilisateur);
+    
     header("Location: member.php");
+    exit();
 }
 
 if (isset($_POST['connect_email'], $_POST['connect_pwd'])) {
     
-    $pdo = \Manager\PDO::pdoConnection();
-    $userService = new \Manager\UserService($pdo, $_POST['connect_email'], $_POST['connect_pwd']);
+    $utilisateur = new \Entity\Utilisateur();
+    
+    // ci dessous peut s'automatiser avec un Hydrateur (en anglais Hydrator)
+    $utilisateur->setEmail($_POST['connect_email'])
+                ->setPassword($_POST['connect_pwd']);
+    
+    $mapper = new \Mapper\UtilisateurMapper();
 
-    if ($user_id = $userService->login()) { //assigns the return value to $user_id, and evaluates it as a boolean afterwards
+    if ($user_id = $mapper->login($utilisateur)) { //assigns the return value to $user_id, and evaluates it as a boolean afterwards
         $userData = $userService->getUser();
         $message = $userData['nom'] . " connecté";
         //header("Location: member.php");
+        //exit();
     } else {
         $message = "Login / Mot de passe invalide !";
     }

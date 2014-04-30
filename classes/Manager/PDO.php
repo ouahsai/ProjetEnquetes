@@ -3,10 +3,7 @@
 namespace Manager;
 
 class PDO
-{
-    protected $pdo;
-    protected $tableName;
-    
+{  
     static public function pdoConnection()
     {
         // \PDO la classe PDO qui n'a pas de namespace

@@ -4,12 +4,23 @@ namespace Entity;
 
 class Utilisateur {
     
-    protected $idUtilisateur;
+    protected $id_utilisateur;
+    protected $nom;
+    protected $prenom;
     protected $email;
     protected $password;
     
-    public function getIdUtilisateur() {
-        return $this->idUtilisateur;
+    
+    public function getId_utilisateur() {
+        return $this->id_utilisateur;
+    }
+
+    public function getNom() {
+        return $this->nom;
+    }
+
+    public function getPrenom() {
+        return $this->prenom;
     }
 
     public function getEmail() {
@@ -20,8 +31,18 @@ class Utilisateur {
         return $this->password;
     }
 
-    public function setIdUtilisateur($idUtilisateur) {
-        $this->idUtilisateur = $idUtilisateur;
+    public function setId_utilisateur($id_utilisateur) {
+        $this->id_utilisateur = $id_utilisateur;
+        return $this;
+    }
+
+    public function setNom($nom) {
+        $this->nom = $nom;
+        return $this;
+    }
+
+    public function setPrenom($prenom) {
+        $this->prenom = $prenom;
         return $this;
     }
 
@@ -34,7 +55,5 @@ class Utilisateur {
         $this->password = $password;
         return $this;
     }
-
-
     
 }

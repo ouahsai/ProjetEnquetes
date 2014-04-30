@@ -83,7 +83,7 @@ class UserService
         return $this->_user;
     }
     
-    private function encryptPwd($pwd) 
+    private function encryptPwd($pwd)
     {        
         $salt = sha1(md5($pwd));
         $encryptPwd = md5($pwd.$salt);

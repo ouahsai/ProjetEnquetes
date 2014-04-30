@@ -80,6 +80,8 @@ create table TYPE_QUESTION
 create table UTILISATEUR
 (
    ID_UTILISATEUR       int not null auto_increment,
+   NOM                  varchar(255) not null,
+   PRENOM               varchar(255) not null,
    EMAIL                varchar(255) not null,
    PASSWORD             varchar(50) not null,
    primary key (ID_UTILISATEUR),
