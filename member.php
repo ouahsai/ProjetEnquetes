@@ -1,3 +1,14 @@
+<?php 
+session_start();
+
+if(isset($_SESSION['user_id'])){
+    
+    //si la session utilisateur existe, la personne est connecté donc on recupere la liste des enquetes de cette personne
+    $enquete = new Mapper\EnqueteMapper();
+    $listEnquetes = $enquete->getEnqueteById($_SESSION['user_id']); 
+}
+?>
+
 <!DOCTYPE html>
 
 <html>
@@ -17,51 +28,21 @@
             
             <h5>Liste des enquetes :</h5>
             <div>
+                <?php if ($listEnquetes){?>
                 <ul>
-                    <div>
-                    <li>Enquete sur les couleurs</li>
-                    <button class="btn btn-primary">Show</button>
-                    <button class="btn btn-warning">Update</button>
-                    <button class="btn btn-danger">Delete</button>
-                    <button class="btn btn-success">Results</button>
-                    </div>
-                    <div>
-                    <li>Enquete sur les animaux</li>
-                    <button class="btn btn-primary">Show</button>
-                    <button class="btn btn-warning">Update</button>
-                    <button class="btn btn-danger">Delete</button>
-                    <button class="btn btn-success">Result</button>
-                    </div>
-                    <div>
-                    <li>Enquete sur les plantes </li>
-                    <button class="btn btn-primary">Show</button>
-                    <button class="btn btn-warning">Update</button>
-                    <button class="btn btn-danger">Delete</button>
-                    <button class="btn btn-success">Result</button>
-                    </div>
-                    <div>
-                    <li>Enquete sur les voitures</li>
-                    <button class="btn btn-primary">Show</button>
-                    <button class="btn btn-warning">Update</button>
-                    <button class="btn btn-danger">Delete</button>
-                    <button class="btn btn-success">Result</button>
-                    </div>
-                    <div>
-                    <li>Enquete sur les ordinateurs</li>
-                    <button class="btn btn-primary">Show</button>
-                    <button class="btn btn-warning">Update</button>
-                    <button class="btn btn-danger">Delete</button>
-                    <button class="btn btn-success">Result</button>
-                    </div>
+                   <?php foreach ($listEnquetes as $elt){?>
+                    <li><?php echo $elt ?></li></br>
+                       <button class="btn btn-primary">Show</button>
+                       <button class="btn btn-warning">Update</button>
+                       <button class="btn btn-danger">Delete</button>
+                       <button class="btn btn-success">Results</button>
+                    <?php } ?>
                 </ul>
-                <div>
-                    <button class="btn btn-default">Nouvelle Enquete</button>
-                </div>
+                <?php } ?>                 
+            </div>  
+            <div>
+                <a href="creation_modification.php"><button class="btn btn-default">Nouvelle Enquete</button></a>
             </div>
-            
-            
-
-            
-        </div>
+            </div>
     </body>
 </html>

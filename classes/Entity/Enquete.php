@@ -4,7 +4,7 @@ namespace Entity;
 
 class Enquete {
     
-    protected $idEnquete;
+    protected $id_Enquete;
     protected $titre;
     protected $description;
     
@@ -12,11 +12,11 @@ class Enquete {
      * 
      * @var Utilisateur
      */
-    protected $idUtilisateur;
+    protected $id_Utilisateur;
     
     
-    public function getIdEnquete() {
-        return $this->idEnquete;
+    public function getId_Enquete() {
+        return $this->id_Enquete;
     }
 
     public function getTitre() {
@@ -27,8 +27,8 @@ class Enquete {
         return $this->description;
     }
 
-    public function setIdEnquete($idEnquete) {
-        $this->idEnquete = $idEnquete;
+    public function setId_Enquete($id_Enquete) {
+        $this->id_Enquete = $id_Enquete;
         return $this;
     }
 
@@ -42,12 +42,12 @@ class Enquete {
         return $this;
     }
 
-    public function getIdUtilisateur() {
-        return $this->idUtilisateur;
+    public function getId_Utilisateur() {
+        return $this->id_Utilisateur;
     }
 
-    public function setIdUtilisateur(Utilisateur $idUtilisateur) {
-        $this->idUtilisateur = $idUtilisateur;
+    public function setIdUtilisateur(Utilisateur $id_Utilisateur) {
+        $this->id_Utilisateur = $id_Utilisateur;
         return $this;
     }
 
