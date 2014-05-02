@@ -6,24 +6,37 @@ class EnqueteMapper {
     
     protected $_pdo;
     
+    
     public function __construct() {
         $this->_pdo = \Manager\PDO::pdoConnection();
     }
 
-    public function getEnqueteByIdUtilisateur(\Entity\Enquete $enquete){
+    public function getEnqueteByIdUtilisateur(\Entity\Enquete $enquete, \Entity\Pagination $pagination){
              
-        $query = "SELECT ID_ENQUETE,TITRE,DESCRIPTION FROM enquete where ID_UTILISATEUR = :id";
-        
+        $query ="SELECT COUNT(*) as nb_elt FROM enquete WHERE ID_UTILISATEUR = :id";
         $stmt = $this->_pdo->prepare($query);
         $stmt->bindValue(":id", $enquete->getUtilisateur()->getId_utilisateur());
         $stmt->execute();
-        $listEnquetes = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $nb_elt = $stmt->fetch(\PDO::FETCH_ASSOC)['nb_elt'];
         
+        
+        $nb_Query = $pagination->set_number_pages($nb_elt);
+        $pageDebut= $pagination->get_display_pages();
+        $pagefin = $pagination->get_page_fin();
+        
+        
+        $query1 = "SELECT ID_ENQUETE,TITRE,DESCRIPTION FROM enquete WHERE ID_UTILISATEUR = :id LIMIT $pageDebut,$pagefin";
+        
+        $stmt = $this->_pdo->prepare($query1);
+        $stmt->bindValue(":id", $enquete->getUtilisateur()->getId_utilisateur());
+        $stmt->execute();
+        $listEnquetes = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+                
         if ($listEnquetes){
-            return $listEnquetes;
+          return $listEnquetes;
         }
         else{
-            return false;
+          return false;
         }
      }
      
