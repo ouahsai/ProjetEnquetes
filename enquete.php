@@ -1,6 +1,14 @@
 <?php
 require_once './includes/autoload.php';
 
+$listMessages = [
+    "Vous devez renseigner un titre d'enquête",
+];
+
+if (!isset($_POST["title"])) {
+    $message = $listMessages[0];
+}
+        
 if (isset($_POST["title"], 
           $_POST["description"],
           $_POST["question"],
@@ -66,6 +74,7 @@ if (isset($_POST["title"],
             <div class="row">
                 <div class="control-group" id="fields">
                     <div class="controls">
+                        
                         <form class="form-horizontal" method="post" action="enquete.php" role="form" autocomplete="off">
                             
                             <div class="page-header">
@@ -148,17 +157,24 @@ if (isset($_POST["title"],
         <script src="js/bootstrap.min.js"></script>
         <script>
             $(function() {
-
+                
                 if ($('.controls').length) {
-
+                    
+                    if(typeof sessionStorage != 'undefined') {
+                        if('Form' in sessionStorage) {
+                            console.log("form");
+                            $('.controls').empty().html(sessionStorage.getItem('Form'));
+                        }
+                    }
+                
                     var $controls = $('.controls'),
                         initText = "Type de réponse à cette question",
                         caret = "&nbsp;<span class='caret'></span>",
                         currentButtonHtml = $controls.find('form .btn-group button')
                                             .html(initText + caret).html();
 
-                    $controls .find('.qcm').hide()
-                    .end().end()
+                    $controls.find('.qcm').hide()
+                    .end()
                     .on('click', '.btn-add', function(e) {
                         e.preventDefault();
 
@@ -166,7 +182,8 @@ if (isset($_POST["title"],
                             currentEntry = $(this).parents('.entry:first'),
                             newEntry = $(currentEntry.clone()).insertAfter(currentEntry);
                             
-                        $controls.trigger("setIndexes");    
+                        $controls.trigger("setIndexes")
+                                 .trigger("setSessionStorage");
                                 
                         newEntry.find('.btn-group > button').html(currentButtonHtml)
                                 .end().find('.qcm').hide();
@@ -179,9 +196,10 @@ if (isset($_POST["title"],
 
                     }).on('click', '.btn-remove', function(e) {
                         e.preventDefault();
+                        
                         $(this).parents('.entry:first').remove();
-
-                        $controls.trigger("setIndexes");
+                        $controls.trigger("setIndexes")
+                                 .trigger("setSessionStorage");
 
                     }).on('click', '.btn-group > ul a', function(e) {
                         e.preventDefault();
@@ -196,19 +214,25 @@ if (isset($_POST["title"],
                         
                         if ($(this).parent().index() === 2) { //case QCM
                             currentQcm.show();
+                            $controls.trigger("setSessionStorage");
                         } else {
                             currentQcm.hide();
+                            $controls.trigger("setSessionStorage");
                         }
+                        
+                        
                         
                     }).on("setIndexes", function() {
                         $(this).find('.qcm').each(function(index){
                             $(this).find("input[name]")
-                                   .attr("name", 'qcm'+index+'[]')
-                        });
-                    });               
+                                   .attr("name", "qcm"+index+"[]");
+                        });                        
+                        
+                    }).on("setSessionStorage", function() {
+                        sessionStorage.setItem("Form", $(this).html());
+                    });
                 }
             });
         </script>
-
     </body>
 </html>
