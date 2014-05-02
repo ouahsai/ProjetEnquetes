@@ -5,27 +5,38 @@ namespace Mapper;
 class EnqueteMapper {
 
     protected $_pdo;
-
-    public function __construct() 
-    {
+    
+    
+    public function __construct() {
         $this->_pdo = \Manager\PDO::pdoConnection();
     }
-    
-    public function add(\Entity\Enquete $enquete) 
-    {
-        $query = "INSERT INTO enquete (id_utilisateur, titre, description)
-                  VALUES (:id_utilisateur, :titre, :description)";
-        
+
+    public function getEnqueteByIdUtilisateur(\Entity\Enquete $enquete, \Entity\Pagination $pagination){
+             
+        $query ="SELECT COUNT(*) as nb_elt FROM enquete WHERE ID_UTILISATEUR = :id";
         $stmt = $this->_pdo->prepare($query);
+        $stmt->bindValue(":id", $enquete->getUtilisateur()->getId_utilisateur());
+        $stmt->execute();
+        $nb_elt = $stmt->fetch(\PDO::FETCH_ASSOC)['nb_elt'];
         
-        $stmt->bindValue("id_utilisateur", $enquete->getId_utilisateur());
-        $stmt->bindValue("titre", $enquete->getTitre());
-        $stmt->bindValue("description", $enquete->getDescription());
         
-        $succes = $stmt->execute();
+        $nb_Query = $pagination->set_number_pages($nb_elt);
+        $pageDebut= $pagination->get_display_pages();
+        $pagefin = $pagination->get_page_fin();
         
-        if(!$succes) {
-            return false;
+        
+        $query1 = "SELECT ID_ENQUETE,TITRE,DESCRIPTION FROM enquete WHERE ID_UTILISATEUR = :id LIMIT $pageDebut,$pagefin";
+        
+        $stmt = $this->_pdo->prepare($query1);
+        $stmt->bindValue(":id", $enquete->getUtilisateur()->getId_utilisateur());
+        $stmt->execute();
+        $listEnquetes = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+                
+        if ($listEnquetes){
+          return $listEnquetes;
+        }
+        else{
+          return false;
         }
         
         return $this->_pdo->lastInsertId();
