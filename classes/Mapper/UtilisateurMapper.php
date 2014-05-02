@@ -35,6 +35,8 @@ class UtilisateurMapper
         $id = $this->_pdo->lastInsertId();
         session_start();
         $_SESSION['user_id'] = $id;
+        $_SESSION['nom'] = $utilisateur->getNom();
+        $_SESSION['prenom'] = $utilisateur->getPrenom();
     }
     
     public function login(\Entity\Utilisateur $utilisateur)
@@ -43,6 +45,8 @@ class UtilisateurMapper
             session_start();
             session_regenerate_id(true);
             $_SESSION['user_id'] = $user->getId_utilisateur();
+            $_SESSION['nom'] = $user->getNom();
+            $_SESSION['prenom'] = $user->getPrenom();
             
             return $user;
         }

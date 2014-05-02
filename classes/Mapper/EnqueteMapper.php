@@ -38,7 +38,7 @@ class EnqueteMapper
                   WHERE ID_UTILISATEUR = :id";
         
         $stmt = $this->_pdo->prepare($query);
-        $stmt->bindValue(":id", $enquete->getUtilisateur()->getId_utilisateur());
+        $stmt->bindValue(":id", $enquete->getId_utilisateur());
         $stmt->execute();
         $nb_elt = $stmt->fetch(\PDO::FETCH_ASSOC)['nb_elt'];
         
@@ -51,10 +51,9 @@ class EnqueteMapper
                    WHERE ID_UTILISATEUR = :id LIMIT $pageDebut,$pagefin";
         
         $stmt = $this->_pdo->prepare($query1);
-        $stmt->bindValue(":id", $enquete->getUtilisateur()->getId_utilisateur());
+        $stmt->bindValue(":id", $enquete->getId_utilisateur());
         $stmt->execute();
         $listEnquetes = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-                
         if ($listEnquetes){
           return $listEnquetes;
         }
