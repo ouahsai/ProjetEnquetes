@@ -68,9 +68,8 @@ create table REPONSE
 /*==============================================================*/
 create table TYPE_QUESTION
 (
-   ID_TYPE_QUESTION     int not null auto_increment,
-   LIBELLE_QUESTION     varchar(255) not null,
-   MULTIPLE             bool not null,
+   ID_TYPE_QUESTION          int not null auto_increment,
+   LIBELLE_TYPE_QUESTION     varchar(255) not null,
    primary key (ID_TYPE_QUESTION)
 );
 

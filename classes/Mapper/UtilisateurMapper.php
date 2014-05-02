@@ -5,7 +5,7 @@ namespace Mapper;
 class UtilisateurMapper 
 {
     protected $_pdo;
-    protected $_user;
+    //protected $_user;
     
     public function __construct() 
     {
@@ -39,12 +39,12 @@ class UtilisateurMapper
     
     public function login(\Entity\Utilisateur $utilisateur)
     {
-        $user = $this->_checkCredentials($utilisateur);
-        if ($user) {
-            $this->_user = $user; // store it so it can be accessed later with getUser()
+        if ($user = $this->_checkCredentials($utilisateur)) {
             session_start();
-            $_SESSION['user_id'] = $user['id_utilisateur'];
-            return $user['id_utilisateur'];
+            session_regenerate_id(true);
+            $_SESSION['user_id'] = $user->getId_utilisateur();
+            
+            return $user;
         }
         return false;
     }
@@ -60,18 +60,16 @@ class UtilisateurMapper
         $stmt->execute();
       
         if ($stmt->rowCount() > 0) {
-            $user = $stmt->fetch(\PDO::FETCH_ASSOC); //returns 1 line as associative array
+            
+            // configure PDO pour qui retourne des instances de la classe \Entity\Utilisateur
+            $stmt->setFetchMode(\PDO::FETCH_CLASS, "\Entity\Utilisateur");
+            $user = $stmt->fetch();
 
-            if ($this->_encryptPwd($utilisateur->getPassword()) === $user['password']) {
+            if ($this->_encryptPwd($utilisateur->getPassword()) === $user->getPassword()) {
                 return $user;
             }
         }
         return false;
-    }
-
-    public function getUser()
-    {
-        return $this->_user;
     }
     
     private function _encryptPwd($pwd)

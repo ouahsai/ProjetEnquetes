@@ -1,7 +1,17 @@
 /* Overwrite CSS Bootstrap rules */
-.container > .page-header { margin-top: 120px; }
+.container > .page-header { margin: 120px 0 40px; }
 .navbar { min-height: 100px; }
 .row { margin: 0; }
 
 /* New styles */
+.form-horizontal .form-group { margin-left:0; margin-right:0; }
 .connection { border-radius: 4px; background: none repeat scroll 0 0 #fbfbfb; border: 1px solid #ccc; }
+
+.entry { margin-bottom: 30px; }
+.entry .input-group[class*="col-"] { margin-right:20px; float: left; }
+.qcm { margin-top: 10px; }
+.qcm label { margin: 20px 0 15px; }
+.qcm .btn-qcm-add { line-height: 2.2em; padding:1px 10px; }
+.qcm .qcm-answer { margin-bottom: 10px; }
+.controls .validation { text-align: right; padding-top: 20px; }
+.controls .info { display: block; margin-bottom: 30px; }

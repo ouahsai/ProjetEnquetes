@@ -4,36 +4,30 @@ namespace Mapper;
 
 class QuestionMapper
 {
-     protected $_pdo;
+    protected $_pdo;
     
-    public function __construct(\PDO $pdo)
+    public function __construct()
     {
-        $this->_pdo = $pdo;
+        $this->_pdo = \Manager\PDO::pdoConnection();
     }
     
     public function add(\Entity\Question $question)
     {
-        var_dump($question);
-        $sql = "INSERT INTO question (id_enquete, id_type_question, libelle_question)
-                VALUES (:id_enquete, :id_type_question, :libelle_question)";
+        $query = "INSERT INTO question (id_enquete, id_type_question, libelle_question)
+                  VALUES (:id_enquete, :id_type_question, :libelle_question)";
         
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->_pdo->prepare($query);
         
-        $stmt->bindValue("id_enquete", $question->getIdEnquete());
-        $stmt->bindValue("id_type_question", $question->getIdTypeQuestion());
-        $stmt->bindValue("libelle_question", $question->getLibelleQuestion());
-        
-        
+        $stmt->bindValue("id_enquete", $question->getId_enquete());
+        $stmt->bindValue("id_type_question", $question->getId_type_question());
+        $stmt->bindValue("libelle_question", $question->getLibelle_question());
+
         $succes = $stmt->execute();
         
         if(!$succes) {
             return false;
         }
         
-        $id = $this->pdo->lastInsertId();
-        
-        $dvd->setId_dvd($id);
-        
-        return $id;
+        return $this->_pdo->lastInsertId();
     } 
 }

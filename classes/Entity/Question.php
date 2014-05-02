@@ -2,58 +2,60 @@
 
 namespace Entity;
 
-class Question {
-    
-    protected $idQuestion;
-    protected $libelleQuestion;
+class Question 
+{
+    protected $id_question;
+    protected $libelle_question;
     
     /**
-     * 
+     * Association avec Enquete
      * @var Enquete
      */
-    protected $idEnquete;
+    protected $id_enquete;
     
     /**
-     * 
+     * Association avec TypeQuestion
      * @var TypeQuestion
      */
-    protected $idTypeQuestion;
+    protected $id_type_question;
     
-    public function getIdQuestion() {
-        return $this->idQuestion;
+    
+    
+    public function getId_question() {
+        return $this->id_question;
     }
 
-    public function getLibelleQuestion() {
-        return $this->libelleQuestion;
+    public function getLibelle_question() {
+        return $this->libelle_question;
     }
 
-    public function setIdQuestion($idQuestion) {
-        $this->idQuestion = $idQuestion;
+    public function getId_enquete() {
+        return $this->id_enquete;
+    }
+
+    public function getId_type_question() {
+        return $this->id_type_question;
+    }
+
+    public function setId_question($id_question) {
+        $this->id_question = (int) $id_question;
         return $this;
     }
 
-    public function setLibelleQuestion($libelleQuestion) {
-        $this->libelleQuestion = $libelleQuestion;
-        return $this;
-    }
-    public function getIdEnquete() {
-        return $this->idEnquete;
-    }
-
-    public function getIdTypeQuestion() {
-        return $this->idTypeQuestion;
-    }
-
-    public function setIdEnquete(Enquete $idEnquete) {
-        $this->idEnquete = $idEnquete;
+    public function setLibelle_question($libelle_question) {
+        $this->libelle_question = (string) $libelle_question;
         return $this;
     }
 
-    public function setIdTypeQuestion(TypeQuestion $idTypeQuestion) {
-        $this->idTypeQuestion = $idTypeQuestion;
+    public function setId_enquete($id_enquete) {
+        $this->id_enquete = (int) $id_enquete;
         return $this;
     }
 
+    public function setId_type_question($id_type_question) {
+        $this->id_type_question = (int) $id_type_question;
+        return $this;
+    }
 
 
 }

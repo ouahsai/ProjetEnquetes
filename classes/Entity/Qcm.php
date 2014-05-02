@@ -2,45 +2,42 @@
 
 namespace Entity;
 
-class Qcm {
-    
-    protected $idQcm;
-    protected $valeurQcm;
+class Qcm 
+{
+    protected $id_qcm;
+    protected $valeur_qcm;
     
     /**
-     * 
+     * Association avec question
      * @var Question
      */
-    protected $idQuestion;
+    protected $id_question;
     
-    public function getIdQcm() {
-        return $this->idQcm;
+    
+    public function getId_qcm() {
+        return $this->id_qcm;
     }
 
-    public function getValeurQcm() {
-        return $this->valeurQcm;
+    public function getValeur_qcm() {
+        return $this->valeur_qcm;
     }
 
-    public function setIdQcm($idQcm) {
-        $this->idQcm = $idQcm;
+    public function getId_question() {
+        return $this->id_question;
+    }
+
+    public function setId_qcm($id_qcm) {
+        $this->id_qcm = (int) $id_qcm;
         return $this;
     }
 
-    public function setValeurQcm($valeurQcm) {
-        $this->valeurQcm = $valeurQcm;
+    public function setValeur_qcm($valeur_qcm) {
+        $this->valeur_qcm = (string) $valeur_qcm;
         return $this;
     }
 
-    public function getIdQuestion() {
-        return $this->idQuestion;
-    }
-
-    public function setIdQuestion(Question $idQuestion) {
-        $this->idQuestion = $idQuestion;
+    public function setId_question($id_question) {
+        $this->id_question = (int) $id_question;
         return $this;
     }
-
-
-    
-    
 }

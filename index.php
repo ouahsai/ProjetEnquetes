@@ -19,8 +19,8 @@ if (isset($_POST['lastname'], $_POST['firstname'],
     $mapper = new \Mapper\UtilisateurMapper();
     $mapper->subscription($utilisateur);
     
-    header("Location: member.php");
-    exit();
+    //header("Location: member.php");
+    //exit();
 }
 
 if (isset($_POST['connect_email'], $_POST['connect_pwd'])) {
@@ -33,9 +33,8 @@ if (isset($_POST['connect_email'], $_POST['connect_pwd'])) {
     
     $mapper = new \Mapper\UtilisateurMapper();
 
-    if ($user_id = $mapper->login($utilisateur)) { //assigns the return value to $user_id, and evaluates it as a boolean afterwards
-        $userData = $userService->getUser();
-        $message = $userData['nom'] . " connecté";
+    if ($user = $mapper->login($utilisateur)) { //assigns the return value to $user_id, and evaluates it as a boolean afterwards
+        $message = $user->getPrenom() . " connecté";
         //header("Location: member.php");
         //exit();
     } else {
@@ -55,9 +54,9 @@ if (isset($_POST['connect_email'], $_POST['connect_pwd'])) {
     </head>
     
     <body>
-        <header class="navbar navbar-fixed-top navbar-inverse">
+<!--        <header class="navbar navbar-fixed-top navbar-inverse">
 
-        </header> 
+        </header> -->
 
         <div class="container">
             

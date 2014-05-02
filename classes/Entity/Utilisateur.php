@@ -32,7 +32,7 @@ class Utilisateur {
     }
 
     public function setId_utilisateur($id_utilisateur) {
-        $this->id_utilisateur = $id_utilisateur;
+        $this->id_utilisateur = (int) $id_utilisateur;
         return $this;
     }
 
