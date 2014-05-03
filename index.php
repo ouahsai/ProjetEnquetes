@@ -19,7 +19,7 @@ if (isset($_POST['lastname'], $_POST['firstname'],
     $mapper = new \Mapper\UtilisateurMapper();
     $mapper->subscription($utilisateur);
     
-    header("Location: member.php");
+    header("Location: member.php?page=1");
     exit();
 }
 
@@ -35,7 +35,7 @@ if (isset($_POST['connect_email'], $_POST['connect_pwd'])) {
 
     if ($user = $mapper->login($utilisateur)) { //assigns the return value to $user_id, and evaluates it as a boolean afterwards
         //$message = $user->getPrenom() . " connecté";
-        header("Location: member.php");
+        header("Location: member.php?page=1");
         exit();
         
     } else {

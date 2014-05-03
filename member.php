@@ -8,6 +8,7 @@ $message = "";
 $pagination = new Entity\Pagination();
 if (isset($_GET['page'])) {
     $pagination->setPageDebut($_GET['page']);
+    $page = $_GET['page'];
 }
 if (isset($_SESSION['user_id'])) {
 
@@ -96,9 +97,9 @@ if (isset($_GET['id'])) {
                         <tr>
                             <td><div><?= $value['titre'] ?></div></td>
                             <td><a class="btn btn-default btn-sm" href="enquete.php">Voir l'enquête</a></td>
-                            <td><a class="btn btn-default btn-sm" href="resultats.php?id=<?= htmlspecialchars($value['id_enquete']) ?>">Résultats</a></td>
-                            <td><a class="btn btn-warning btn-sm" href="enquete.php?id=<?= htmlspecialchars($value['id_enquete']) ?>">Modifier l'enquête</a></td>
-                            <td><a class="btn btn-danger btn-sm" href="member.php?id=<?= htmlspecialchars($value['id_enquete']) ?>">Supprimer l'enquête</a></td>
+                            <td><a value="<?= htmlspecialchars($value['id_enquete'])?>" class="btn btn-default btn-sm" href="resultats.php?id=<?= htmlspecialchars($value['id_enquete']) ?>">Résultats</a></td>
+                            <td><a value="<?= htmlspecialchars($value['id_enquete']) ?>" class="btn btn-warning btn-sm" href="enquete.php?id=<?= htmlspecialchars($value['id_enquete']) ?>">Modifier l'enquête</a></td>
+                            <td><a value="<?= htmlspecialchars($value['id_enquete']) ?>" class="btn btn-danger btn-sm" href="member.php?id=<?= htmlspecialchars($value['id_enquete']) ?><?php if (isset($page)){echo '&page='.$page;} ?>">Supprimer l'enquête</a></td>
                         </tr>
                     <?php endforeach; ?>
                         </table>
