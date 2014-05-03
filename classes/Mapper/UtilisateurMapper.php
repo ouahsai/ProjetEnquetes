@@ -86,8 +86,9 @@ class UtilisateurMapper
     
     private function UpdateProfil(\Entity\Utilisateur $utilisateur)
     {        
-        $query = "UPDATE utilisateur SET (nom = :nom, prenom = :prenom, email = :email,                         password = :password)
-                 WHERE id_utilisateur = :id_utilisateur";
+        $query = "UPDATE utilisateur 
+                  SET (nom = :nom, prenom = :prenom, email = :email, password = :password)
+                  WHERE id_utilisateur = :id_utilisateur";
         
         $stmt = $this->_pdo->prepare($query);
         $stmt->bindValue(":nom", $utilisateur->getNom());

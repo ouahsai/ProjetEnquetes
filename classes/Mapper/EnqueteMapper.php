@@ -35,7 +35,7 @@ class EnqueteMapper
     {  
         $query = "SELECT COUNT(*) as nb_elt
                   FROM enquete 
-                  WHERE ID_UTILISATEUR = :id";
+                  WHERE id_utilisateur = :id";
         
         $stmt = $this->_pdo->prepare($query);
         $stmt->bindValue(":id", $enquete->getId_utilisateur());
@@ -46,9 +46,9 @@ class EnqueteMapper
         $pageDebut= $pagination->get_PageDebut();
         $pagefin = $pagination->get_page_fin();
         
-        $query1 = "SELECT ID_ENQUETE,TITRE,DESCRIPTION
+        $query1 = "SELECT id_enquete, titre, description
                    FROM enquete
-                   WHERE ID_UTILISATEUR = :id LIMIT $pageDebut,$pagefin";
+                   WHERE id_utilisateur = :id LIMIT $pageDebut, $pagefin";
         
         $stmt = $this->_pdo->prepare($query1);
         $stmt->bindValue(":id", $enquete->getId_utilisateur());

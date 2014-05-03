@@ -37,6 +37,7 @@ if (isset($_POST['connect_email'], $_POST['connect_pwd'])) {
         //$message = $user->getPrenom() . " connecté";
         header("Location: member.php");
         exit();
+        
     } else {
         $message = "Login / Mot de passe invalide !";
     }
@@ -58,7 +59,7 @@ if (isset($_POST['connect_email'], $_POST['connect_pwd'])) {
 
         </header> -->
 
-        <div class="container">
+        <div class="index container">
             
             <div class="page-header">
                 <h1 class="">Projet enquêtes</h1>

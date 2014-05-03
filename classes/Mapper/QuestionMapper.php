@@ -34,8 +34,8 @@ class QuestionMapper
     public function selectIdQuestion(\Entity\Question $question)
     {
         $query = "SELECT id_question
-                   FROM question
-                   WHERE id_enquete = :id_enquete";
+                  FROM question
+                  WHERE id_enquete = :id_enquete";
         
         $stmt = $this->_pdo->prepare($query);
         
@@ -65,10 +65,10 @@ class QuestionMapper
         }
         $listIdEnquete = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         if ($listIdEnquete){
-          return $listIdEnquete;
+            return $listIdEnquete;
         }
         else{
-          return false;
+            return false;
         }
     } 
 }

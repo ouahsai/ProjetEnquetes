@@ -4,7 +4,7 @@ session_start();
 
 $message = "";
 
-var_dump($_POST["question"]);
+//var_dump($_POST["question"]);
 $listMessages = [
     "Vous devez renseigner un titre d'enquête",
     "Vous devez définir au minimum une question",
@@ -84,7 +84,7 @@ if (!array_diff($check_array, array_keys($_POST)))
 
         </header>-->
 
-        <div class="container">
+        <div class="survey container">
             <div class="row">
                 <div class="control-group" id="fields">
                     
