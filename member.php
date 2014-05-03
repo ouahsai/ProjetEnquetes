@@ -101,6 +101,7 @@ if (isset($_GET['id'])) {
                             <td><a class="btn btn-danger btn-sm" href="member.php?id=<?= htmlspecialchars($value['id_enquete']) ?>">Supprimer l'enquête</a></td>
                         </tr>
                     <?php endforeach; ?>
+                        </table>
                         <div id="pagination">
                             <ul class="pagination">
                                 <?php for($i=1;$i<=$nb_pages;$i++): ?>
@@ -113,7 +114,7 @@ if (isset($_GET['id'])) {
                         <p><?= $message ?></p>
                     </div>
                 <?php endif; ?>
-            </table>
+            
             
                     <a class="btn btn-primary" href="enquete.php">Nouvelle Enquete</a>
         </div>
