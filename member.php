@@ -20,6 +20,8 @@ if (isset($_SESSION['user_id'])) {
     //$utilisateur->setId_utilisateur(15); // set de l'id_utilisateur dans l'objet utilisateur
     //$enquete->setUtilisateur($utilisateur); // association de l'objet utilisateur sur l'objet enquete
     $listEnquetes = $enqueteMapper->getEnqueteByIdUtilisateur($enquete, $pagination);
+    $nb_pages = $pagination->get_number_pages();
+    var_dump($nb_pages);
     
     if (!$listEnquetes){ //affiche un message d'erreur
         $message = "Vous n'avez pas encore créé d'enquêtes !";
@@ -97,13 +99,21 @@ if (isset($_GET['id'])) {
                             <td><a class="btn btn-danger btn-sm" href="member.php?id=<?= htmlspecialchars($value['id_enquete']) ?>">Supprimer l'enquête</a></td>
                         </tr>
                     <?php endforeach; ?>
+                        <div id="pagination">
+                            <ul class="pagination">
+                                <?php for($i=1;$i<=$nb_pages;$i++): ?>
+                                    <li><a href="member.php?page=<?= $i?>"><?= $i ?></a></li>
+                                <?php endfor; ?>
+                            </ul>
+                        </div>
                 <?php else : ?>
                     <div class="alert alert-info">
                         <p><?= $message ?></p>
                     </div>
-                    <a class="btn btn-primary" href="enquete.php">Nouvelle Enquete</a>
                 <?php endif; ?>
             </table>
+            
+                    <a class="btn btn-primary" href="enquete.php">Nouvelle Enquete</a>
         </div>
     </body>
 </html>
