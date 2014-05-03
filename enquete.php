@@ -1,18 +1,31 @@
 <?php
 require_once './includes/autoload.php';
 
+$message = "";
+
+var_dump($_POST["question"]);
 $listMessages = [
     "Vous devez renseigner un titre d'enquête",
+    "Vous devez définir au minimum une question",
+    "Vous devez choisir un type de réponse associé à la question"
 ];
 
-if (!isset($_POST["title"])) {
-    $message = $listMessages[0];
-}
-        
-if (isset($_POST["title"], 
-          $_POST["description"],
-          $_POST["question"],
-          $_POST["type"]))
+// mandatory fields
+if (!isset($_POST["title"]) || empty($_POST["title"])) { $message = $listMessages[0]; }
+
+//foreach($_POST["question"] as $key => $value){
+//    if(!isset($value)){ $message = $listMessages[1]; }
+//}
+//foreach($_POST["type"] as $key => $value){
+//    if(!isset($value)){ $message = $listMessages[2]; }
+//}
+
+if (!isset($_POST["question"]) || empty($_POST["question"])) { $message = $listMessages[1]; }
+if (!isset($_POST["type"]) || empty($_POST["type"])) { $message = $listMessages[2]; }
+
+// équivalent de if(isset(), ..., ...)
+$check_array = array('title', 'description', 'question', 'type');
+if (!array_diff($check_array, array_keys($_POST)))
 {
     $enquete = new \Entity\Enquete();
     $typeQuestion = new \Entity\TypeQuestion();
@@ -73,8 +86,15 @@ if (isset($_POST["title"],
         <div class="container">
             <div class="row">
                 <div class="control-group" id="fields">
+                    
+                    <?php if (!empty($message)) : ?>
+                        <div class="alert alert-danger">
+                            <p><?= $message ?></p>
+                        </div>
+                    <?php endif; ?>
+                    
                     <div class="controls">
-                        
+
                         <form class="form-horizontal" method="post" action="enquete.php" role="form" autocomplete="off">
                             
                             <div class="page-header">
@@ -127,7 +147,7 @@ if (isset($_POST["title"],
                                         <div class="qcm-answer">
                                             <input class="form-control input-sm" name="qcm0[]" type="text">
                                             <span class="input-group-btn">
-                                                <button class="btn btn-info btn-xs btn-qcm-add" type="button">
+                                                <button class="btn btn-success btn-xs btn-qcm-add" type="button">
                                                     <span class="glyphicon glyphicon-plus"></span>
                                                 </button>
                                             </span>
@@ -135,7 +155,7 @@ if (isset($_POST["title"],
                                         <div class="qcm-answer">
                                             <input class="form-control input-sm" name="qcm0[]" type="text">
                                             <span class="input-group-btn">
-                                                <button class="btn btn-info btn-xs btn-qcm-add" type="button">
+                                                <button class="btn btn-success btn-xs btn-qcm-add" type="button">
                                                     <span class="glyphicon glyphicon-plus"></span>
                                                 </button>
                                             </span>
@@ -160,22 +180,24 @@ if (isset($_POST["title"],
                 
                 if ($('.controls').length) {
                     
-                    if(typeof sessionStorage != 'undefined') {
-                        if('Form' in sessionStorage) {
-                            console.log("form");
-                            $('.controls').empty().html(sessionStorage.getItem('Form'));
-                        }
-                    }
-                
-                    var $controls = $('.controls'),
-                        initText = "Type de réponse à cette question",
+                    var $controls = $('.controls');
+                    
+//                    if(typeof sessionStorage != 'undefined') {
+//                        if('Form' in sessionStorage) {
+//                            $controls.empty().html(sessionStorage.getItem('Form'));
+//                        } else {
+//                            $controls.find('.qcm').hide();
+//                        }
+//                    }
+                    
+                    $controls.find('.qcm').hide();
+                    
+                    var initText = "Type de réponse à cette question",
                         caret = "&nbsp;<span class='caret'></span>",
                         currentButtonHtml = $controls.find('form .btn-group button')
                                             .html(initText + caret).html();
 
-                    $controls.find('.qcm').hide()
-                    .end()
-                    .on('click', '.btn-add', function(e) {
+                    $controls.on('click', '.btn-add', function(e) {
                         e.preventDefault();
 
                         var controlForm = $controls.find('form:first'),
@@ -221,7 +243,7 @@ if (isset($_POST["title"],
                         }
                         
                         
-                        
+
                     }).on("setIndexes", function() {
                         $(this).find('.qcm').each(function(index){
                             $(this).find("input[name]")
