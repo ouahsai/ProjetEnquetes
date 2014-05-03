@@ -46,7 +46,7 @@ class Reponse
         return $this;
     }
 
-    public function setId_question(Question $id_question) {
+    public function setId_question($id_question) {
         $this->id_question = (int) $id_question;
         return $this;
     }

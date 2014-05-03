@@ -28,31 +28,33 @@ if (isset($_SESSION['user_id'])) {
     }
 }
 
-// suppression de l'enquête
+// suppression de l'enquête ayant pour id : $_GET['id']
 if (isset($_GET['id'])) {
-
-    $enqueteMapper = new Mapper\EnqueteMapper(); // appel de la class enqueteMapper
+    
+    $enqueteMapper = new Mapper\EnqueteMapper();
     $questionMapper = new Mapper\QuestionMapper();
     $qcmMapper = new Mapper\QcmMapper();
     $reponseMapper = new Mapper\ReponseMapper();
 
-    $enquete = new Entity\Enquete(); // appel de l entity Enquete
-    $enquete->setId_enquete($_GET['id']);
+    $enquete = new Entity\Enquete();
+    $enquete->setId_enquete((int) $_GET['id']);
+    
     $question = new Entity\Question();
-    $question->setId_enquete($_GET['id']);
+    $question->setId_enquete((int) $_GET['id']);
+    
     $qcm = new Entity\Qcm();
     $reponse = new Entity\Reponse();
     
-    // on recupere la list des id_question correspondant à l'id_enquete
-    $listIdQuestion = $questionMapper->selectIdQuestion($question);
-
-    foreach ($listIdQuestion as $idQuestion) {
-        $reponse->setId_question($idQuestion);
-        $reponseMapper->deleteReponse($reponse);
-        $qcm->setId_question($idQuestion);
-        $qcmMapper->deleteQCM($qcm);
+    // on recupere la liste des id_question correspondant à l'id_enquete
+    $listIdQuestionByIdEnquete = $questionMapper->getIdQuestionByIdEnquete($question);
+    
+    foreach ($listIdQuestionByIdEnquete as $value) {
+        $reponse->setId_question($value);
+        $reponseMapper->deleteReponseByIdQuestion($reponse);
+        $qcm->setId_question($value);
+        $qcmMapper->deleteQCMByIdQuestion($qcm);
     }
-    $questionMapper->deleteQuestion($question);
+    $questionMapper->deleteQuestionByIdEnquete($question);
     $enqueteMapper->deleteEnqueteById($enquete);
 }
 ?>
@@ -87,9 +89,9 @@ if (isset($_GET['id'])) {
                 <h1>Espace Membre</h1>
             </div>
             
-            <h4>Liste des enquetes :</h4>
-            <table class="table table-striped">
-                <?php if (!empty($listEnquetes)) : ?>
+            <?php if (!empty($listEnquetes)) : ?>
+                <h4>Liste des enquetes :</h4>
+                <table class="table table-striped">
                     <?php foreach ($listEnquetes as $value) : ?>
                         <tr>
                             <td><div><?= $value['titre'] ?></div></td>

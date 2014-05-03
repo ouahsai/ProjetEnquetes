@@ -10,12 +10,13 @@ class ReponseMapper
     {
         $this->_pdo = \Manager\PDO::pdoConnection();
     }
+    
     public function add()
     {
        
     }
     
-    public function deleteReponse(\Entity\Question $reponse)
+    public function deleteReponseByIdQuestion(\Entity\Reponse $reponse)
     {
         $query = "DELETE FROM reponse
                   WHERE id_question = :id_question";

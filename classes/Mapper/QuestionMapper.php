@@ -31,44 +31,28 @@ class QuestionMapper
         return $this->_pdo->lastInsertId();
     }
     
-    public function selectIdQuestion(\Entity\Question $question)
+    public function getIdQuestionByIdEnquete(\Entity\Question $question)
     {
         $query = "SELECT id_question
                   FROM question
                   WHERE id_enquete = :id_enquete";
         
         $stmt = $this->_pdo->prepare($query);
-        
         $stmt->bindValue("id_enquete", $question->getId_enquete());
-
-        $succes = $stmt->execute();
+        $stmt->execute();
         
-        if(!$succes) {
-            return false;
-        }
+        $listIdQuestion = $stmt->fetchAll(\PDO::FETCH_COLUMN);
         
+        return $listIdQuestion;
     } 
     
-    public function deleteQuestion(\Entity\Question $question)
+    public function deleteQuestionByIdEnquete(\Entity\Question $question)
     {
         $query = "DELETE FROM question
                   WHERE id_enquete = :id_enquete";
         
         $stmt = $this->_pdo->prepare($query);
-        
         $stmt->bindValue("id_enquete", $question->getId_enquete());
-
-        $succes = $stmt->execute();
-        
-        if(!$succes) {
-            return false;
-        }
-        $listIdEnquete = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        if ($listIdEnquete){
-            return $listIdEnquete;
-        }
-        else{
-            return false;
-        }
+        $stmt->execute();
     } 
 }
