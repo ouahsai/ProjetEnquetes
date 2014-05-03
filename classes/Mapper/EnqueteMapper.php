@@ -43,7 +43,7 @@ class EnqueteMapper
         $nb_elt = $stmt->fetch(\PDO::FETCH_ASSOC)['nb_elt'];
         
         $nb_Query = $pagination->set_number_pages($nb_elt);
-        $pageDebut= $pagination->get_display_pages();
+        $pageDebut= $pagination->get_PageDebut();
         $pagefin = $pagination->get_page_fin();
         
         $query1 = "SELECT ID_ENQUETE,TITRE,DESCRIPTION
@@ -60,28 +60,8 @@ class EnqueteMapper
         else{
           return false;
         }
-        
-        return $this->_pdo->lastInsertId();
     }
     
-//    public function getEnqueteByIdUtilisateur(\Entity\Enquete $enquete) 
-//    {
-//        $query = "SELECT id_enquete, titre, description
-//                  FROM enquete 
-//                  WHERE id_utilisateur = :id";
-//
-//        $stmt = $this->_pdo->prepare($query);
-//        $stmt->bindValue(":id", $enquete->getId_utilisateur());
-//        $stmt->execute();
-//        $listEnquetes = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-//
-//        if ($listEnquetes) {
-//            return $listEnquetes;
-//        } else {
-//            return false;
-//        }
-//    }
-
     public function deleteEnqueteById(\Entity\Enquete $enquete) 
     {
         $query = "DELETE FROM enquete

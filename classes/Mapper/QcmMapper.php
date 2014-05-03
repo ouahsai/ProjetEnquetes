@@ -27,4 +27,20 @@ class QcmMapper
             return false;
         }
     }
+    
+    public function deleteQCM(\Entity\Qcm $qcm)
+    {
+        $query = "DELETE FROM qcm 
+                  WHERE id_question = :id_question";
+
+        $stmt = $this->_pdo->prepare($query);
+
+        $stmt->bindValue(":id_question", $qcm->getId_question());
+        
+        $succes = $stmt->execute();
+
+        if(!$succes) {
+            return false;
+        }
+    }
 }

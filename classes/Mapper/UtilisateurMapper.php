@@ -83,4 +83,24 @@ class UtilisateurMapper
         
         return $encryptPwd;
     }
+    
+    private function UpdateProfil(\Entity\Utilisateur $utilisateur)
+    {        
+        $query = "UPDATE utilisateur SET (nom = :nom, prenom = :prenom, email = :email,                         password = :password)
+                 WHERE id_utilisateur = :id_utilisateur";
+        
+        $stmt = $this->_pdo->prepare($query);
+        $stmt->bindValue(":nom", $utilisateur->getNom());
+        $stmt->bindValue(":prenom", $utilisateur->getPrenom());
+        $stmt->bindValue(":email", $utilisateur->getEmail());
+        $stmt->bindValue(":password", $this->_encryptPwd($utilisateur->getPassword()));
+        $stmt->bindValue(":id_utilisateur", $_SESSION['user_id']);
+        
+        $succes = $stmt->execute();
+        if(!$succes) {
+            return false;
+        }
+        $_SESSION['nom'] = $utilisateur->getNom();
+        $_SESSION['prenom'] = $utilisateur->getPrenom();
+    }
 }

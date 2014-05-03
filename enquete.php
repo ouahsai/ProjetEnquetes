@@ -1,5 +1,6 @@
 <?php
 require_once './includes/autoload.php';
+session_start();
 
 $listMessages = [
     "Vous devez renseigner un titre d'enquête",
@@ -19,7 +20,7 @@ if (isset($_POST["title"],
     $question = new \Entity\Question();
     $qcm = new \Entity\Qcm();
     
-    $enquete->setId_utilisateur(1)   //TODO -> push $_SESSION['user_id']
+    $enquete->setId_utilisateur($_SESSION['user_id'])   //TODO -> push $_SESSION['user_id']
             ->setTitre($_POST["title"])
             ->setDescription($_POST["description"]);
     

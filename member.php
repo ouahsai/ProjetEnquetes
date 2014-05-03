@@ -2,7 +2,7 @@
 require_once './includes/autoload.php';
 
 session_start();
-
+$message="";
 $pagination= new Entity\Pagination();
 if(isset($_GET['page'])){
     $pagination->setPageDebut($_GET['page']);
@@ -17,13 +17,14 @@ if (isset($_SESSION['user_id'])) {
 //$utilisateur->setId_utilisateur(15); // set de l'id_utilisateur dans l'objet utilisateur
     //$enquete->setUtilisateur($utilisateur); // association de l'objet utilisateur sur l'objet enquete
     $listEnquetes = $enqueteMapper->getEnqueteByIdUtilisateur($enquete, $pagination);
-   
+   if($listEnquetes){ // si listenquetes contient quelque chose on retourne la varaible
+       $listEnquetes;
+   }
+else{ //sinon on affiche un message d'erreur
+    $message = "Vous n'avez pas encore créé d'enquêtes!";
+    
 }
-var_dump($_SESSION['user_id']);
-var_dump($_SESSION['nom']);
-var_dump($_SESSION['prenom']);
-$message = "Vous n'avez pas encore créé d'enquêtes!";
-
+}
 
 ?>
 
@@ -55,24 +56,28 @@ $message = "Vous n'avez pas encore créé d'enquêtes!";
             <h5>Liste des enquetes :</h5>
             <div>
                 <?php if (!empty($listEnquetes)) { ?>
-                    <ul class="list-group-item-text">
+                    <ul class="list-unstyled">
                         <?php foreach ($listEnquetes as $elt) {
                             $enquete->setId_Enquete($elt['ID_ENQUETE']);
                             ?>
-                        <li class=""><?php echo $elt['TITRE'] ?></li><br>
+                        <li class="bg-warning"><span class="glyphicon glyphicon-eye-open"></span><?php echo $elt['TITRE'] ?></li><br>
                             <a href="creation_modif.php"><button type="button" class="btn btn-primary">Show</button></a>
-                            <a href="creation_modif.php?id=<?php echo $enquete->getId_Enquete(); ?>"><button type="button" class="btn btn-warning">Update</button></a>
-                            <a href="supprimer.php?id=<?php echo $enquete->getId_Enquete(); ?>"><button type="button" class="btn btn-danger">Delete</button></a>
-                            <a href="result.php?id=<?php echo $enquete->getId_Enquete(); ?>"><button type="button" class="btn btn-success">Results</button></a><br><br>
+                            <a href="creation_modif.php?idenquete=<?php echo $enquete->getId_Enquete(); ?>"><button type="button" class="btn btn-warning">Update</button></a>
+                            <a href="supprimer.php?idenquete=<?php echo $enquete->getId_Enquete(); ?>"><button type="button" class="btn btn-danger">Delete</button></a>
+                            <a href="result.php?idenquete=<?php echo $enquete->getId_Enquete(); ?>"><button type="button" class="btn btn-success">Results</button></a><br><br>
                         <?php } ?>
                     </ul>
 
                 <?php } else { ?>
-                    <p><?php echo $message; ?></p>
+                    
+                <div class="alert alert-danger">
+                    <p><?= $message ?></p>
+                </div>
+            
                 <?php } ?>
             </div>  
             <div>
-                <a href="creation_modif.php"><button type="button" class="btn btn-default">Nouvelle Enquete</button></a>
+                <a href="enquete.php"><button type="button" class="btn btn-default">Nouvelle Enquete</button></a>
             </div>
         </div>
     </body>
