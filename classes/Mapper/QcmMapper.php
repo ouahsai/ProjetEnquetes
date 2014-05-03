@@ -28,7 +28,7 @@ class QcmMapper
         }
     }
     
-    public function deleteQCM(\Entity\Qcm $qcm)
+    public function deleteQCMByIdQuestion(\Entity\Qcm $qcm)
     {
         $query = "DELETE FROM qcm 
                   WHERE id_question = :id_question";
