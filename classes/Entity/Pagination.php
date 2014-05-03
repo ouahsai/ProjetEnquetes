@@ -3,7 +3,7 @@ namespace Entity;
 
 class Pagination {
    
-        private $nb_par_page = 3;
+        private $nb_par_page = 500;
         private $nb_Query;
         protected $pageDebut = 0;
  
@@ -25,7 +25,7 @@ class Pagination {
             return $this;
         }
         
-        public function get_display_pages()
+        public function get_PageDebut()
 	{
 		return $this->pageDebut;
 	}
@@ -36,7 +36,7 @@ class Pagination {
         
         public function get_page_fin()
         {
-            return ($this->nb_par_page) + ($this->get_display_pages());
+            return ($this->nb_par_page) + ($this->get_PageDebut());
         }
 
 

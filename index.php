@@ -19,8 +19,8 @@ if (isset($_POST['lastname'], $_POST['firstname'],
     $mapper = new \Mapper\UtilisateurMapper();
     $mapper->subscription($utilisateur);
     
-    //header("Location: member.php");
-    //exit();
+    header("Location: member.php");
+    exit();
 }
 
 if (isset($_POST['connect_email'], $_POST['connect_pwd'])) {
@@ -34,9 +34,9 @@ if (isset($_POST['connect_email'], $_POST['connect_pwd'])) {
     $mapper = new \Mapper\UtilisateurMapper();
 
     if ($user = $mapper->login($utilisateur)) { //assigns the return value to $user_id, and evaluates it as a boolean afterwards
-        $message = $user->getPrenom() . " connecté";
-        //header("Location: member.php");
-        //exit();
+        //$message = $user->getPrenom() . " connecté";
+        header("Location: member.php");
+        exit();
     } else {
         $message = "Login / Mot de passe invalide !";
     }

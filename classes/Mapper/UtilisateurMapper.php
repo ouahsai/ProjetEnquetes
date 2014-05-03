@@ -35,6 +35,8 @@ class UtilisateurMapper
         $id = $this->_pdo->lastInsertId();
         session_start();
         $_SESSION['user_id'] = $id;
+        $_SESSION['nom'] = $utilisateur->getNom();
+        $_SESSION['prenom'] = $utilisateur->getPrenom();
     }
     
     public function login(\Entity\Utilisateur $utilisateur)
@@ -43,6 +45,8 @@ class UtilisateurMapper
             session_start();
             session_regenerate_id(true);
             $_SESSION['user_id'] = $user->getId_utilisateur();
+            $_SESSION['nom'] = $user->getNom();
+            $_SESSION['prenom'] = $user->getPrenom();
             
             return $user;
         }
@@ -78,5 +82,25 @@ class UtilisateurMapper
         $encryptPwd = md5($pwd.$salt);
         
         return $encryptPwd;
+    }
+    
+    private function UpdateProfil(\Entity\Utilisateur $utilisateur)
+    {        
+        $query = "UPDATE utilisateur SET (nom = :nom, prenom = :prenom, email = :email,                         password = :password)
+                 WHERE id_utilisateur = :id_utilisateur";
+        
+        $stmt = $this->_pdo->prepare($query);
+        $stmt->bindValue(":nom", $utilisateur->getNom());
+        $stmt->bindValue(":prenom", $utilisateur->getPrenom());
+        $stmt->bindValue(":email", $utilisateur->getEmail());
+        $stmt->bindValue(":password", $this->_encryptPwd($utilisateur->getPassword()));
+        $stmt->bindValue(":id_utilisateur", $_SESSION['user_id']);
+        
+        $succes = $stmt->execute();
+        if(!$succes) {
+            return false;
+        }
+        $_SESSION['nom'] = $utilisateur->getNom();
+        $_SESSION['prenom'] = $utilisateur->getPrenom();
     }
 }
