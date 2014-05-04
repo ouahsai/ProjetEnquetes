@@ -6,7 +6,7 @@ class Pagination
 {
     private $nb_par_page = 3;
     private $nb_Query;
-    protected $pageDebut =0;
+    protected $pageDebut = 0;
 
     public function get_Nb_par_page() {
         return $this->nb_par_page;

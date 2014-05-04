@@ -65,7 +65,6 @@
             sessionStorage.setItem("Form", $(this).html());
         });
         
-
         var cloneElement = function(e, $this, suffix) {
             e.preventDefault();
 

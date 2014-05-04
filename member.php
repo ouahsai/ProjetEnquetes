@@ -13,32 +13,6 @@ if (isset($_GET['page'])) {
 //si la session utilisateur existe, la personne est connecté donc on 
 //recupere la liste des enquetes de cette personne
 if (isset($_SESSION['user_id'])) {
-
-    //si la session utilisateur existe, la personne est connecté donc on recupere la liste des enquetes de cette personne
-    $enqueteMapper = new Mapper\EnqueteMapper(); // appel de la class enqueteMapper
-    $utilisateur = new Entity\Utilisateur(); //appel de l'entity Utilisateur
-    $enquete = new Entity\Enquete(); // appel de l'entity Enquete
-    $enquete->setId_utilisateur($_SESSION['user_id']);
-    
-    //$utilisateur->setId_utilisateur(15); // set de l'id_utilisateur dans l'objet utilisateur
-    //$enquete->setUtilisateur($utilisateur); // association de l'objet utilisateur sur l'objet enquete
-    $listEnquetes = $enqueteMapper->getEnqueteByIdUtilisateur($enquete, $pagination);
-    $nb_pages = $pagination->get_number_pages();
-    var_dump($nb_pages);
-    
-    if (!$listEnquetes){ //affiche un message d'erreur
-        $message = "Vous n'avez pas encore créé d'enquêtes !";
-    }
-}
-
-// suppression de l'enquête ayant pour id : $_GET['id']
-if (isset($_GET['id'])) {
-    
-    $enqueteMapper = new Mapper\EnqueteMapper();
-    $questionMapper = new Mapper\QuestionMapper();
-    $qcmMapper = new Mapper\QcmMapper();
-    $reponseMapper = new Mapper\ReponseMapper();
-
     $enquete = new Entity\Enquete();
     $enqueteMapper = new Mapper\EnqueteMapper();
     
@@ -46,7 +20,6 @@ if (isset($_GET['id'])) {
     
     $enquete->setId_utilisateur((int) $_SESSION['user_id']);
     $listEnquetes = $enqueteMapper->getEnqueteByIdUtilisateur($enquete, $pagination);
-    //var_dump($listEnquetes);
 }
 ?>
 
@@ -92,22 +65,18 @@ if (isset($_GET['id'])) {
                             <td><a value="<?= htmlspecialchars($value['id_enquete']) ?>" class="btn btn-danger btn-sm" href="member.php?id=<?= htmlspecialchars($value['id_enquete']) ?><?php if (isset($page)){echo '&page='.$page;} ?>">Supprimer l'enquête</a></td>
                         </tr>
                     <?php endforeach; ?>
-                        </table>
-                        <div id="pagination">
-                            <ul class="pagination">
-                                <?php for($i=1;$i<=$nb_pages;$i++): ?>
-                                    <li><a href="member.php?page=<?= $i?>"><?= $i ?></a></li>
-                                <?php endfor; ?>
-                            </ul>
-                        </div>
-                <?php else : ?>
-                    <div class="alert alert-info">
-                        <p><?= $message ?></p>
-                    </div>
-                <?php endif; ?>
-            
-            
-                    <a class="btn btn-primary" href="enquete.php">Nouvelle Enquete</a>
+                </table>
+                <ul class="pagination">
+                    <?php for($i=1; $i<=$pagination->get_number_pages(); $i++) : ?>
+                        <li class="<?= $i == $page ? "active" : "" ?>"><a href="member.php?page=<?= $i ?>"><?= $i ?></a></li>
+                    <?php endfor; ?>
+                </ul>
+            <?php else : ?>
+                <div class="alert alert-info">
+                    <p>La liste des enquêtes est vide !</p>
+                </div>
+                <a class="btn btn-primary" href="enquete.php">Nouvelle Enquête</a>
+            <?php endif; ?>
         </div>
     </body>
 </html>
