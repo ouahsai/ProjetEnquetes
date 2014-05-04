@@ -20,5 +20,9 @@
 .member .user img { float: left; margin: 10px 15px 0; }
 .member .user .block-user { float: left; }
 .member > h4 { margin-bottom: 30px; }
-.member table td:first-child { width:50%; padding-right:30px; vertical-align:middle; font-size:0.9em; }
+.member .table-container { min-height: 320px; }
+.member table { margin-bottom: 40px; }
+.member table td:first-child { width:62%; padding-right:30px; vertical-align:middle; font-size:0.9em; }
 .member table td div { text-overflow: ellipsis; overflow: hidden; width:35em; white-space:nowrap; }
+.member .pagination-container { padding-top:20px; border-top: 1px solid #eee; }
+.member .pagination { float:right; margin:0; }

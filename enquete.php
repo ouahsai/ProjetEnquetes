@@ -32,29 +32,30 @@ if (!array_diff($check_array, array_keys($_POST)))
     $typeQuestion = new \Entity\TypeQuestion();
     $question = new \Entity\Question();
     $qcm = new \Entity\Qcm();
+    $pagination = new Entity\Pagination();
     
     $enquete->setId_utilisateur($_SESSION['user_id'])
             ->setTitre($_POST["title"])
             ->setDescription($_POST["description"]);
     
-    $mapper = new Mapper\EnqueteMapper();
-    $id_enquete = $mapper->add($enquete); // (string) last_insert_id enquete
+    $enqueteMapper = new Mapper\EnqueteMapper();
+    $id_enquete = $enqueteMapper->add($enquete); // (string) last_insert_id enquete
     
     foreach($_POST["question"] as $key => $value){
 
         // insert into typeQuestion
         $typeQuestion->setLibelle_type_question($_POST["type"][$key]);
         
-        $mapper = new Mapper\TypeQuestionMapper();
-        $id_type_question = $mapper->add($typeQuestion); // (string) last_insert_id typeQuestion
+        $typeQuestionMapper = new Mapper\TypeQuestionMapper();
+        $id_type_question = $typeQuestionMapper->add($typeQuestion); // (string) last_insert_id typeQuestion
 
         // insert into question
         $question->setId_enquete((int) $id_enquete)  // needs to be converted
                  ->setId_type_question((int) $id_type_question)
                  ->setLibelle_question($value);
         
-        $mapper = new Mapper\QuestionMapper();
-        $id_question = $mapper->add($question); // (string) last_insert_id question
+        $questionMapper = new Mapper\QuestionMapper();
+        $id_question = $questionMapper->add($question); // (string) last_insert_id question
         
         // insert into qcm
         if($_POST["type"][$key] === "QCM") {
@@ -63,11 +64,13 @@ if (!array_diff($check_array, array_keys($_POST)))
             $qcm->setId_question((int) $id_question)
                 ->setValeur_qcm($qcmValues);
 
-            $mapper = new Mapper\QcmMapper();
-            $mapper->add($qcm);
+            $qcmMapper = new Mapper\QcmMapper();
+            $qcmMapper->add($qcm);
         }
     }
-    header("Location: member.php");
+    
+    $enqueteMapper->getEnqueteByIdUtilisateur($enquete, $pagination);
+    header("Location: member.php?page=".$pagination->get_number_pages());
     exit();
 }
 ?>

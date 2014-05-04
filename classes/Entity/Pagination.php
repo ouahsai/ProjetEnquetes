@@ -4,7 +4,7 @@ namespace Entity;
 
 class Pagination 
 {
-    private $nb_par_page = 3;
+    private $nb_par_page = 5;
     private $nb_Query;
     protected $pageDebut = 0;
 
