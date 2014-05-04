@@ -67,6 +67,8 @@ if (!array_diff($check_array, array_keys($_POST)))
             $mapper->add($qcm);
         }
     }
+    header("Location: member.php");
+    exit();
 }
 ?>
 
@@ -127,7 +129,7 @@ if (!array_diff($check_array, array_keys($_POST)))
                                     <div class="input-group col-xs-7">
                                         <input class="form-control" name="question[]" type="text" placeholder="Votre Question" />
                                         <span class="input-group-btn">
-                                            <button class="btn btn-success btn-add" type="button">
+                                            <button class="btn btn-default btn-add" type="button">
                                                 <span class="glyphicon glyphicon-plus"></span>
                                             </button>
                                         </span>
@@ -145,18 +147,11 @@ if (!array_diff($check_array, array_keys($_POST)))
                                 <div class="clearfix qcm">
                                     <div class="input-group col-xs-3">
                                         <label for="">Réponses au QCM :</label>
-                                        <div class="qcm-answer">
+                                        
+                                        <div class="entry-qcm">
                                             <input class="form-control input-sm" name="qcm0[]" type="text">
                                             <span class="input-group-btn">
-                                                <button class="btn btn-success btn-xs btn-qcm-add" type="button">
-                                                    <span class="glyphicon glyphicon-plus"></span>
-                                                </button>
-                                            </span>
-                                        </div>
-                                        <div class="qcm-answer">
-                                            <input class="form-control input-sm" name="qcm0[]" type="text">
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-success btn-xs btn-qcm-add" type="button">
+                                                <button class="btn btn-default btn-xs btn-add-qcm" type="button">
                                                     <span class="glyphicon glyphicon-plus"></span>
                                                 </button>
                                             </span>
@@ -166,7 +161,7 @@ if (!array_diff($check_array, array_keys($_POST)))
                             </div>
 
                             <div class="form-group validation">
-                                <input type="submit" class="btn btn-success" value="Soumettre l'enquête">
+                                <input type="submit" class="btn btn-primary" value="Soumettre l'enquête">
                             </div>
                         </form>
                     </div>
@@ -176,86 +171,6 @@ if (!array_diff($check_array, array_keys($_POST)))
 
         <script src="js/jquery-1.11.0.js"></script>
         <script src="js/bootstrap.min.js"></script>
-        <script>
-            $(function() {
-                
-                if ($('.controls').length) {
-                    
-                    var $controls = $('.controls');
-                    
-//                    if(typeof sessionStorage != 'undefined') {
-//                        if('Form' in sessionStorage) {
-//                            $controls.empty().html(sessionStorage.getItem('Form'));
-//                        } else {
-//                            $controls.find('.qcm').hide();
-//                        }
-//                    }
-                    
-                    $controls.find('.qcm').hide();
-                    
-                    var initText = "Type de réponse à cette question",
-                        caret = "&nbsp;<span class='caret'></span>",
-                        currentButtonHtml = $controls.find('form .btn-group button')
-                                            .html(initText + caret).html();
-
-                    $controls.on('click', '.btn-add', function(e) {
-                        e.preventDefault();
-
-                        var controlForm = $controls.find('form:first'),
-                            currentEntry = $(this).parents('.entry:first'),
-                            newEntry = $(currentEntry.clone()).insertAfter(currentEntry);
-                            
-                        $controls.trigger("setIndexes")
-                                 .trigger("setSessionStorage");
-                                
-                        newEntry.find('.btn-group > button').html(currentButtonHtml)
-                                .end().find('.qcm').hide();
-
-                        newEntry.find('input').val('');
-                        controlForm.find('.entry:not(:last) .btn-add')
-                                   .removeClass('btn-add').addClass('btn-remove')
-                                   .removeClass('btn-success').addClass('btn-danger')
-                                   .html('<span class="glyphicon glyphicon-minus"></span>');
-
-                    }).on('click', '.btn-remove', function(e) {
-                        e.preventDefault();
-                        
-                        $(this).parents('.entry:first').remove();
-                        $controls.trigger("setIndexes")
-                                 .trigger("setSessionStorage");
-
-                    }).on('click', '.btn-group > ul a', function(e) {
-                        e.preventDefault();
-                        
-                        var currentText = $(this).text(),
-                            currentQcm = $(this).parents(".entry").find(".qcm"),
-                            ulParent = $(this).parent().parent(),
-                            hidden = ulParent.find(".hidden");
-                    
-                        hidden.val(currentText);
-                        ulParent.prev().html(currentText + caret);
-                        
-                        if ($(this).parent().index() === 2) { //case QCM
-                            currentQcm.show();
-                            $controls.trigger("setSessionStorage");
-                        } else {
-                            currentQcm.hide();
-                            $controls.trigger("setSessionStorage");
-                        }
-                        
-                        
-
-                    }).on("setIndexes", function() {
-                        $(this).find('.qcm').each(function(index){
-                            $(this).find("input[name]")
-                                   .attr("name", "qcm"+index+"[]");
-                        });                        
-                        
-                    }).on("setSessionStorage", function() {
-                        sessionStorage.setItem("Form", $(this).html());
-                    });
-                }
-            });
-        </script>
+        <script src="js/controls.js"></script>
     </body>
 </html>

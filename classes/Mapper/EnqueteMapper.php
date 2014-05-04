@@ -43,7 +43,7 @@ class EnqueteMapper
         $nb_elt = $stmt->fetch(\PDO::FETCH_ASSOC)['nb_elt'];
         
         $nb_Query = $pagination->set_number_pages($nb_elt);
-        $pageDebut= $pagination->get_PageDebut();
+        $pageDebut = $pagination->get_PageDebut();
         $pagefin = $pagination->get_page_fin();
         
         $query1 = "SELECT id_enquete, titre, description
@@ -55,10 +55,10 @@ class EnqueteMapper
         $stmt->execute();
         $listEnquetes = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         if ($listEnquetes){
-          return $listEnquetes;
+            return $listEnquetes;
         }
         else{
-          return false;
+            return false;
         }
     }
     

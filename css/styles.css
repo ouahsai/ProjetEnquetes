@@ -11,8 +11,8 @@
 .survey .entry .input-group[class*="col-"] { margin-right:20px; float: left; }
 .survey .qcm { margin-top: 10px; }
 .survey .qcm label { margin: 20px 0 15px; }
-.survey .qcm .btn-qcm-add { line-height: 2.2em; padding:1px 10px; }
-.survey .qcm .qcm-answer { margin-bottom: 10px; }
+.survey .qcm .btn-add-qcm, .survey .qcm .btn-remove-qcm { line-height: 2.17em; padding:1px 10px; }
+.survey .qcm .entry-qcm { margin-bottom: 10px; }
 .survey .controls .validation { text-align: right; padding-top: 20px; }
 .survey .controls .info { display: block; margin-bottom: 30px; }
 

@@ -3,57 +3,23 @@ require_once './includes/autoload.php';
 
 session_start();
 
-$message = "";
-
 $pagination = new Entity\Pagination();
+
 if (isset($_GET['page'])) {
     $pagination->setPageDebut($_GET['page']);
 }
+
+//si la session utilisateur existe, la personne est connecté donc on 
+//recupere la liste des enquetes de cette personne
 if (isset($_SESSION['user_id'])) {
-
-    //si la session utilisateur existe, la personne est connecté donc on recupere la liste des enquetes de cette personne
-    $enqueteMapper = new Mapper\EnqueteMapper(); // appel de la class enqueteMapper
-    $utilisateur = new Entity\Utilisateur(); //appel de l'entity Utilisateur
-    $enquete = new Entity\Enquete(); // appel de l'entity Enquete
-    $enquete->setId_utilisateur($_SESSION['user_id']);
-    
-    //$utilisateur->setId_utilisateur(15); // set de l'id_utilisateur dans l'objet utilisateur
-    //$enquete->setUtilisateur($utilisateur); // association de l'objet utilisateur sur l'objet enquete
-    $listEnquetes = $enqueteMapper->getEnqueteByIdUtilisateur($enquete, $pagination);
-    
-    if (!$listEnquetes){ //affiche un message d'erreur
-        $message = "Vous n'avez pas encore créé d'enquêtes !";
-    }
-}
-
-// suppression de l'enquête ayant pour id : $_GET['id']
-if (isset($_GET['id'])) {
-    
-    $enqueteMapper = new Mapper\EnqueteMapper();
-    $questionMapper = new Mapper\QuestionMapper();
-    $qcmMapper = new Mapper\QcmMapper();
-    $reponseMapper = new Mapper\ReponseMapper();
-
     $enquete = new Entity\Enquete();
-    $enquete->setId_enquete((int) $_GET['id']);
+    $enqueteMapper = new Mapper\EnqueteMapper();
     
-    $question = new Entity\Question();
-    $question->setId_enquete((int) $_GET['id']);
+    require_once './suppression.php';
     
-    $qcm = new Entity\Qcm();
-    $reponse = new Entity\Reponse();
-    
-    // on recupere la liste des id_question correspondant à l'id_enquete
-    $listIdQuestionByIdEnquete = $questionMapper->getIdQuestionByIdEnquete($question);
-    
-    foreach ($listIdQuestionByIdEnquete as $value) {
-        $reponse->setId_question($value);
-        $reponseMapper->deleteReponseByIdQuestion($reponse);
-        $qcm->setId_question($value);
-        $qcmMapper->deleteQCMByIdQuestion($qcm);
-    }
-    $questionMapper->deleteQuestionByIdEnquete($question);
-    $enqueteMapper->deleteEnqueteById($enquete);
+    $enquete->setId_utilisateur((int) $_SESSION['user_id']);
+    $listEnquetes = $enqueteMapper->getEnqueteByIdUtilisateur($enquete, $pagination);
+    //var_dump($listEnquetes);
 }
 ?>
 
@@ -87,7 +53,7 @@ if (isset($_GET['id'])) {
                 <h1>Espace Membre</h1>
             </div>
             
-            <?php if (!empty($listEnquetes)) : ?>
+            <?php if ($listEnquetes) : ?>
                 <h4>Liste des enquetes :</h4>
                 <table class="table table-striped">
                     <?php foreach ($listEnquetes as $value) : ?>
@@ -102,9 +68,9 @@ if (isset($_GET['id'])) {
                 </table>
             <?php else : ?>
                 <div class="alert alert-info">
-                    <p><?= $message ?></p>
+                    <p>La liste des enquêtes est vide !</p>
                 </div>
-                <a class="btn btn-primary" href="enquete.php">Nouvelle Enquete</a>
+                <a class="btn btn-primary" href="enquete.php">Nouvelle Enquête</a>
             <?php endif; ?>
         </div>
     </body>
