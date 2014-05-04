@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -18,6 +18,10 @@
             <div class="page-header">
                 <h1 class="">Resultat de l'enquête</h1>
             </div>
+                    <div>
+                            <a class="btn btn-default btn-xs" href="member.php">Page membre</a>
+                            <a class="btn btn-default btn-xs" href="deconnexion.php">Deconnexion</a>
+                        </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="page-header">
