@@ -39,8 +39,11 @@ class EnqueteMapper
         
         $stmt = $this->_pdo->prepare($query);
         $stmt->bindValue(":id", $enquete->getId_utilisateur());
-        $stmt->execute();
-        $nb_elt = $stmt->fetch(\PDO::FETCH_ASSOC)['nb_elt'];
+        $succes = $stmt->execute();
+        if(!$succes) {
+            return false;
+        }
+        $nb_elt = $succes->fetch(\PDO::FETCH_ASSOC)['nb_elt'];
         
         $pagination->set_number_pages($nb_elt);
         $pageDebut = $pagination->get_PageDebut();
