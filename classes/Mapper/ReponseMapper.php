@@ -35,7 +35,7 @@ class ReponseMapper
     public function totalReponseByIdEnquete(\Entity\Reponse $reponse)
     {
         $query = "SELECT count(r.unique_user_id)as nb_reponse FROM reponse r
-                  inner join queston q on q.id_question = r.id_question
+                  inner join question q on q.id_question = r.id_question
                   inner join enquete e on e.id_enquete = q.id_enquete
                   where q.id_enquete = :id_enquete";
         
@@ -54,20 +54,33 @@ class ReponseMapper
     
     public function reponseByIdTypeQuestion(\Entity\Reponse $reponse)
     {
-        $query = "SELECT r.valeur_reponse FROM reponse r
+        $query = "SELECT q.libelle_question r.valeur_reponse FROM reponse r
                   inner join question q on q.id_question = r.id_question
-                  where q.id_type_question = :id_type_question";
+                  inner join enquete e on e.id_enquete = q.id_enquete
+                  where q.id_type_question = :id_type_question 
+                  AND q.id_enquete = :id_enquete
+                  AND q.id_type_question = 1";
+        
+       /* SELECT r.valeur_reponse
+FROM reponse r
+INNER JOIN question q ON q.id_question = r.id_question
+INNER JOIN enquete e ON e.id_enquete = q.id_enquete
+INNER JOIN type_question t ON t.id_type_question = q.id_type_question
+WHERE q.id_question =9
+AND q.id_enquete =3
+AND t.libelle_type_question = "Texte"*/
         
         $stmt = $this->_pdo->prepare($query);
         
         $stmt->bindValue(":id_type_question", $reponse->getId_type_question());
+        $stmt->bindValue("::id_enquete", $reponse->getId_enquete());
 
         $succes = $stmt->execute();
         
         if(!$succes) {
             return false;
         }
-        $textReponse = $succes->fetch(\PDO::FETCH_ASSOC);
+        $textReponse = $succes->fetchall(\PDO::FETCH_ASSOC);
         return $textReponse;
     }
     

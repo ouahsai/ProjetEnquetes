@@ -27,4 +27,19 @@ class TypeQuestionMapper
         
         return $this->_pdo->lastInsertId();
     } 
+    
+    public function selectType(\Entity\TypeQuestion $type_question){
+        
+        $query = "SELECT * FROM type_question";
+
+        $stmt = $this->_pdo->query($query);
+              
+        $succes = $stmt->execute();
+        
+        if(!$succes) {
+            return false;
+        }
+        $typequestion = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        
+    }
 }
