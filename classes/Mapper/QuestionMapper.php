@@ -13,13 +13,12 @@ class QuestionMapper
     
     public function add(\Entity\Question $question)
     {
-        $query = "INSERT INTO question (id_enquete, id_type_question, libelle_question)
-                  VALUES (:id_enquete, :id_type_question, :libelle_question)";
+        $query = "INSERT INTO question (id_enquete, libelle_question)
+                  VALUES (:id_enquete, :libelle_question)";
         
         $stmt = $this->_pdo->prepare($query);
         
         $stmt->bindValue("id_enquete", $question->getId_enquete());
-        $stmt->bindValue("id_type_question", $question->getId_type_question());
         $stmt->bindValue("libelle_question", $question->getLibelle_question());
 
         $succes = $stmt->execute();
@@ -55,4 +54,6 @@ class QuestionMapper
         $stmt->bindValue("id_enquete", $question->getId_enquete());
         $stmt->execute();
     } 
+    
+   
 }

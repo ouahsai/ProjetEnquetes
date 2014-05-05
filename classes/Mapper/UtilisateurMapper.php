@@ -104,4 +104,7 @@ class UtilisateurMapper
         $_SESSION['nom'] = $utilisateur->getNom();
         $_SESSION['prenom'] = $utilisateur->getPrenom();
     }
+    
+ 
+    
 }
