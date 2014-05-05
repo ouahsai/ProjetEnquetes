@@ -84,7 +84,7 @@ class UtilisateurMapper
         return $encryptPwd;
     }
     
-    private function UpdateProfil(\Entity\Utilisateur $utilisateur)
+    private function updateProfil(\Entity\Utilisateur $utilisateur)
     {        
         $query = "UPDATE utilisateur 
                   SET (nom = :nom, prenom = :prenom, email = :email, password = :password)
@@ -104,7 +104,19 @@ class UtilisateurMapper
         $_SESSION['nom'] = $utilisateur->getNom();
         $_SESSION['prenom'] = $utilisateur->getPrenom();
     }
-    
- 
-    
+    private function deleteProfil(\Entity\Utilisateur $utilisateur)
+    {        
+        $query = "DELETE FROM utilisateur
+                  WHERE id_utilisateur = :id_utilisateur";
+        
+        $stmt = $this->_pdo->prepare($query);
+        $stmt->bindValue(":id_utilisateur", $_SESSION['user_id']);
+        
+        $succes = $stmt->execute();
+        if(!$succes) {
+            return false;
+        }
+        session_destroy();
+        header('Location: index.php');
+    }
 }

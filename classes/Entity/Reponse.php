@@ -21,6 +21,12 @@ class Reponse
      * @var Enquete
      */
     protected $id_enquete;
+    
+    /**
+     * Association avec type question
+     * @var Type_Question
+     */
+    protected $libelle_type_question;
         
     public function getId_reponse() {
         return $this->id_reponse;
@@ -44,6 +50,10 @@ class Reponse
     
     public function getId_enquete() {
         return $this->id_enquete;
+    }
+    
+    public function getLibelle_type_question() {
+        return $this->libelle_type_question;
     }
 
     public function setId_reponse($id_reponse) {
@@ -73,6 +83,11 @@ class Reponse
     
     public function setId_enquete($id_enquete) {
         $this->id_enquete = (int) $id_enquete;
+        return $this;
+    }
+    
+    public function setLibelle_type_question($libelle_type_question) {
+        $this->libelle_type_question = (string) $libelle_type_question;
         return $this;
     }
 }
