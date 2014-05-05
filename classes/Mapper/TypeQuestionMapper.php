@@ -37,5 +37,6 @@ class TypeQuestionMapper
        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
        return $result;
+       
     }
 }

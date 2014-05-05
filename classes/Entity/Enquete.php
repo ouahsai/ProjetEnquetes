@@ -2,7 +2,7 @@
 
 namespace Entity;
 
-class Enquete {
+class Enquete extends Utilisateur {
     
     protected $id_enquete;
     protected $titre;
@@ -41,14 +41,14 @@ class Enquete {
         return $this;
     }
 
-    public function getId_utilisateur() {
-        return $this->id_utilisateur;
-    }
-
-    public function setId_utilisateur($id_utilisateur) {
-        $this->id_utilisateur = (int) $id_utilisateur;
-        return $this;
-    }
+//    public function getId_utilisateur() {
+//        return $this->id_utilisateur;
+//    }
+//
+//    public function setId_utilisateur($id_utilisateur) {
+//        $this->id_utilisateur = (int) $id_utilisateur;
+//        return $this;
+//    }
 
 
 }

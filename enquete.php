@@ -4,8 +4,11 @@ session_start();
 
 $message = "";
 
+$typeQuestionMapper = new Mapper\TypeQuestionMapper();
 $value_typeQuestion = $typeQuestionMapper->getTypeQuestion();
-var_dump($value_typeQuestion);
+
+$questionMapper = new Mapper\QuestionMapper();
+
         
 //var_dump($_POST["question"]);
 $listMessages = [
@@ -43,7 +46,7 @@ if (!array_diff($check_array, array_keys($_POST))) {
     $qcm = new \Entity\Qcm();
     $pagination = new Entity\Pagination();
     
-    $typeQuestionMapper = new Mapper\TypeQuestionMapper();
+    
 
     $enquete->setId_utilisateur($_SESSION['user_id'])
             ->setTitre($_POST["title"])
@@ -63,10 +66,12 @@ if (!array_diff($check_array, array_keys($_POST))) {
         
         // insert into question
         $question->setId_enquete((int) $id_enquete)  // needs to be converted
-                ->setId_type_question((int) $id_type_question)
+                ->setId_type_question((int) $value_typeQuestion)
                 ->setLibelle_question($value);
+        
+        var_dump($question);
 
-        $questionMapper = new Mapper\QuestionMapper();
+        
         $id_question = $questionMapper->add($question); // (string) last_insert_id question
         // insert into qcm
         if($_POST["type"][$key] === "QCM") {
