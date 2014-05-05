@@ -54,22 +54,15 @@ class ReponseMapper
     
     public function reponseByIdTypeQuestion(\Entity\Reponse $reponse)
     {
-        $query = "SELECT q.libelle_question r.valeur_reponse FROM reponse r
-                  inner join question q on q.id_question = r.id_question
-                  inner join enquete e on e.id_enquete = q.id_enquete
-                  where q.id_type_question = :id_type_question 
-                  AND q.id_enquete = :id_enquete
-                  AND q.id_type_question = 1";
-        
-       /* SELECT r.valeur_reponse
-FROM reponse r
-INNER JOIN question q ON q.id_question = r.id_question
-INNER JOIN enquete e ON e.id_enquete = q.id_enquete
-INNER JOIN type_question t ON t.id_type_question = q.id_type_question
-WHERE q.id_question =9
-AND q.id_enquete =3
-AND t.libelle_type_question = "Texte"*/
-        
+        $query = "SELECT r.valeur_reponse
+                 FROM reponse r
+                 INNER JOIN question q ON q.id_question = r.id_question
+                 INNER JOIN enquete e ON e.id_enquete = q.id_enquete
+                 INNER JOIN type_question t ON t.id_type_question = q.id_type_question
+                 WHERE q.id_question = :id_question
+                 AND q.id_enquete = :id_enquete
+                 AND t.libelle_type_question = \"Texte\"";
+              
         $stmt = $this->_pdo->prepare($query);
         
         $stmt->bindValue(":id_type_question", $reponse->getId_type_question());
