@@ -34,7 +34,7 @@ class ReponseMapper
     
     public function totalReponseByIdEnquete(\Entity\Reponse $reponse)
     {
-        $query = "SELECT count(r.unique_user_id)as nb_reponse
+        $query = "SELECT e.titre, e.description, count(DISTINCT r.unique_user_id)as nb_reponse
                   FROM reponse r
                   inner join question q on q.id_question = r.id_question
                   inner join enquete e on e.id_enquete = q.id_enquete
@@ -49,7 +49,7 @@ class ReponseMapper
         if(!$succes) {
             return false;
         }
-        $nb_reponse = $succes->fetch(\PDO::FETCH_ASSOC)['nb_reponse'];
+        $nb_reponse = $stmt->fetchall(\PDO::FETCH_ASSOC);
         return $nb_reponse;
     } 
     
