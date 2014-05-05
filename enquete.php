@@ -69,14 +69,16 @@ if (!array_diff($check_array, array_keys($_POST))) {
         $questionMapper = new Mapper\QuestionMapper();
         $id_question = $questionMapper->add($question); // (string) last_insert_id question
         // insert into qcm
-        if ($_POST["type"][$key] === "QCM") {
-            $qcmValues = implode(",", $_POST["qcm$key"]);
-
-            $qcm->setId_question((int) $id_question)
-                    ->setValeur_qcm($qcmValues);
-
+        if($_POST["type"][$key] === "QCM") {
+            $qcmValues = $_POST["qcm$key"];
             $qcmMapper = new Mapper\QcmMapper();
-            $qcmMapper->add($qcm);
+            
+            foreach($qcmValues as $value){
+                $qcm->setId_question((int) $id_question)
+                    ->setValeur_qcm($value);
+
+                $qcmMapper->add($qcm);
+            }
         }
     }
 
