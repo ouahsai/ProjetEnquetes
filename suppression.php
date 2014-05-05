@@ -1,13 +1,15 @@
 <?php
+require_once './includes/autoload.php';
 
 // suppression de l'enquête suivant l'id
 if (isset($_GET['id'])) {
 
+    $enquete = new Entity\Enquete();
     $question = new Entity\Question();
     $qcm = new Entity\Qcm();
     $reponse = new Entity\Reponse();
 
-    //$enqueteMapper = new Mapper\EnqueteMapper();
+    $enqueteMapper = new Mapper\EnqueteMapper();
     $questionMapper = new Mapper\QuestionMapper();
     $qcmMapper = new Mapper\QcmMapper();
     $reponseMapper = new Mapper\ReponseMapper();
@@ -27,5 +29,7 @@ if (isset($_GET['id'])) {
     }
     $questionMapper->deleteQuestionByIdEnquete($question);
     $enqueteMapper->deleteEnqueteById($enquete);
+    
+    header("Location: member.php");
 }
 

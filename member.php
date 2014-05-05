@@ -64,7 +64,7 @@ if (isset($_SESSION['user_id'])) {
                                 <td><a class="btn btn-default btn-sm" href="enquete.php">Voir l'enquête</a></td>
                                 <td><a value="<?= htmlspecialchars($value['id_enquete'])?>" class="btn btn-default btn-sm" href="resultats.php?id=<?= htmlspecialchars($value['id_enquete']) ?>">Résultats</a></td>
                                 <td><a value="<?= htmlspecialchars($value['id_enquete']) ?>" class="btn btn-warning btn-sm" href="enquete.php?id=<?= htmlspecialchars($value['id_enquete']) ?>">Modifier</a></td>
-                                <td><a value="<?= htmlspecialchars($value['id_enquete']) ?>" class="btn btn-danger btn-sm" href="member.php?id=<?= htmlspecialchars($value['id_enquete']) ?><?php if (isset($page)){echo '&page='.$page;} ?>">Supprimer</a></td>
+                                <td><a value="<?= htmlspecialchars($value['id_enquete']) ?>" class="btn btn-danger btn-sm" href="suppression.php?id=<?= htmlspecialchars($value['id_enquete']) ?>">Supprimer</a></td>
                             </tr>
                         <?php endforeach; ?>
                     </table>

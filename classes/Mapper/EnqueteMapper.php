@@ -43,7 +43,7 @@ class EnqueteMapper
         if(!$succes) {
             return false;
         }
-        $nb_elt = $succes->fetch(\PDO::FETCH_ASSOC)['nb_elt'];
+        $nb_elt = $stmt->fetch(\PDO::FETCH_ASSOC)['nb_elt'];
         
         $pagination->set_number_pages($nb_elt);
         $pageDebut = $pagination->get_PageDebut();
