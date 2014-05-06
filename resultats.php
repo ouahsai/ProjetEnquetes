@@ -8,12 +8,16 @@ if (isset($_GET['id'])) {
     $reponseMapper = new Mapper\ReponseMapper();
     $reponse->setId_enquete($_GET['id']);
     $nbReponse = $reponseMapper->totalReponseByIdEnquete($reponse);
-    
+    if ($nbReponse[0]['nb_reponse'] > 0){ 
     $question = new Entity\Question();
     $questionMapper = new Mapper\QuestionMapper();
     $question->setId_enquete($_GET['id']);
     $questions = $questionMapper->getQuestionsByIdEnquete($question);  
-    
+    }
+    else{
+    //todo message si pas de reponses
+    $message = "Il n'y a pas de reponse à cette enquete !!";
+    }
 }
 
 ?>
@@ -51,7 +55,13 @@ if (isset($_GET['id'])) {
             <div class="row">
                 <div class="col-md-12">
                     <h5>Total de répondants : <?php echo $nbReponse[0]['nb_reponse']; ?></h5>
-                            <?php foreach ($questions as $question): ?>
+                            <?php if($nbReponse[0]['nb_reponse'] > 0): ?>
+                    
+                                
+                                
+                                
+                                
+                                <?php foreach ($questions as $question): ?>
                                 <h3>Question :  <?php echo $question['libelle_question'];
                                                             $reponse->setId_question($question['id_question']); ?></h3>
                                                             <?php if($question['libelle_type_question']==='Nombre'):
@@ -60,7 +70,7 @@ if (isset($_GET['id'])) {
                                                             <p>réponse:  <ul><?php foreach ($reponseQuestion as $value): ?>
                                                                             <li>Valeur minimum :&nbsp<?php echo $value['min_value']; ?></li>
                                                                             <li>Valeur maximale :&nbsp<?php echo $value['max_value']; ?></li>
-                                                                            <li>Moyenne des réponses :&nbsp<?php echo $value['avg_value']; ?></li>
+                                                                            <li>Moyenne des réponses :&nbsp<?php echo abs($value['avg_value']); ?></li>
                                                                             <li>Somme des réponses :&nbsp<?php echo $value['total']; ?></li>
                                                                             <?php endforeach;?>
                                                             </ul></p>
@@ -87,15 +97,23 @@ if (isset($_GET['id'])) {
                                                                 
                                                             $reponseQuestion = $reponseMapper->reponseQuestionTexte($reponse);
                                                             ?>                                                             
-                                                            <p>réponse:<?php foreach ($reponseQuestion as $value): ?>
+                                                            <p>réponse:
+                                                            <ul>
+                                                                <?php foreach ($reponseQuestion as $value): ?>
                                                                             <li><?php echo $value['valeur_reponse']; ?></li>
-                                                                        <?php endforeach;?></p>
+                                                                        <?php endforeach;?>
+                                                            </ul>
+                                                            </p>
                                                             
                                                                 
                                                             <?php endif;?>
                             <?php endforeach; ?>
-                
-                
+                <?php else : ?> 
+                   <div class="alert alert-danger">
+                    <p><?= $message ?></p>
+                     </div>
+               <?php endif;?>
+                                                            
                 </div>
             </div>
         </div>
