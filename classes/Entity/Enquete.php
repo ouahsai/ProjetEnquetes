@@ -10,9 +10,16 @@ class Enquete extends Utilisateur {
     
     /**
      * Association avec l'utilisateur
-     * @var Utilisateur
+     * @var id_Utilisateur
      */
     protected $id_utilisateur;
+    
+    /**
+     * Association avec l'utilisateur
+     * @var Utilisateur
+     */
+    protected $utilisateur;
+    
   
     public function getId_enquete() {
         return $this->id_enquete;
@@ -50,5 +57,12 @@ class Enquete extends Utilisateur {
 //        return $this;
 //    }
 
+    public function getUtilisateur() {
+        return $this->utilisateur;
+    }
+    public function setUtilisateur(\Entity\Utilisateur $utilisateur) {
+        $this->utilisateur = $utilisateur;
+        return $this;
+    }
 
 }

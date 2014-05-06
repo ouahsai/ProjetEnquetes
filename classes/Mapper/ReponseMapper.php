@@ -37,7 +37,10 @@ class ReponseMapper
         return $nb_reponse;
     } 
     
-    public function reponseByIdTypeQuestion(\Entity\Reponse $reponse)
+    
+      
+    
+    public function reponseQuestionTexte(\Entity\Reponse $reponse)
     {
         $query = "SELECT q.libelle_question, r.valeur_reponse
                   FROM reponse r
@@ -46,21 +49,22 @@ class ReponseMapper
                   INNER JOIN type_question t ON t.id_type_question = q.id_type_question
                   WHERE q.id_question = :id_question
                   AND q.id_enquete = :id_enquete
-                  AND t.libelle_type_question = :libelle_type_question";
+                  AND t.libelle_type_question = \"Texte\"";
+        
               
         $stmt = $this->_pdo->prepare($query);
             
         $stmt->bindValue(":id_question", $reponse->getId_question());
         $stmt->bindValue(":id_enquete", $reponse->getId_enquete());
-        $stmt->bindValue(":libelle_type_question", $reponse->getLibelle_type_question());
+        //$stmt->bindValue(":libelle_type_question", $reponse->getLibelle_type_question());
 
         $succes = $stmt->execute();
         
         if(!$succes) {
             return false;
         }
-        $reponseIDQuestion = $succes->fetchall(\PDO::FETCH_ASSOC);
-        return $reponseIDQuestion;
+        $reponseTexte = $stmt->fetchall(\PDO::FETCH_ASSOC);
+        return $reponseTexte;
     }
     
     public function reponseQuestionNumerique(\Entity\Reponse $reponse)

@@ -6,8 +6,11 @@ if (isset($_GET['id'])) {
     $reponse = new Entity\Reponse();
     $reponseMapper = new Mapper\ReponseMapper();
     $reponse->setId_enquete($_GET['id']);
+    $reponse->setId_question(8);
     $nbReponse = $reponseMapper->totalReponseByIdEnquete($reponse);
-    var_dump($nbReponse);
+    $reponsequestion = $reponseMapper->reponseQuestionTexte($reponse);
+    var_dump($reponsequestion);
+    
 }
 
 ?>
@@ -44,10 +47,12 @@ if (isset($_GET['id'])) {
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <h5>Total de reponses : <?php echo $nbReponse[0]['nb_reponse']; ?></h5>
-                    <p>nombre de resultat</p>
-                    <h6>Question1</h6>
-                    <p>réponse</p>
+                    <h5>Total de répondants : <?php echo $nbReponse[0]['nb_reponse']; ?></h5>
+                    
+                    <h6>Question :  <?php echo $reponsequestion[0]['libelle_question'] ?> </h6>
+                    <p>réponse:  <?php foreach ($reponsequestion as $value){ ?>
+                    <li><?php echo $value['valeur_reponse']; ?></li>
+                    <?php } ?> </p>
                 </div>
             </div>
         </div>

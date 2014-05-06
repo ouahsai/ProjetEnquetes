@@ -104,7 +104,7 @@ class EnqueteMapper
                   WHERE id_utilisateur = :id";
 
         $stmt = $this->_pdo->prepare($query);
-        $stmt->bindValue(":id", $enquete->getId_utilisateur());
+        $stmt->bindValue(":id", $enquete->getUtilisateur()->getId_utilisateur());
         $succes = $stmt->execute();
         
         if(!$succes) {

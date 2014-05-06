@@ -40,11 +40,11 @@ $listEnquetes = $enqueteMapper->getEnqueteByIdUtilisateur($enquete, $pagination)
                     <img src="img/users_default.png" alt="photo profil" title="Photo profil" height="52" width="52">
                     <div class="block-user">
                         <h4>Utilisateur connecté : <?= htmlspecialchars($_SESSION["nom"] ." ". $_SESSION["prenom"]) ?></h4>
-                        <form id="account" action="common.php" method="post">
+                        <!--<form id="account" action="includes/common.php" method="post">-->
                             <a class="btn btn-default btn-xs" href="index.php">Modifier compte</a>
-                            <a class="btn btn-default btn-xs" href="#" data-toggle="modal" data-target="#myModal">Supprimer compte</a>
+                            <a class="btn btn-default btn-xs" href="updateProfil.php?update=<?php echo $enquete->getId_utilisateur() ?>" data-toggle="modal" data-target="#myModal" name="delete">Supprimer compte</a>
                             <a class="btn btn-default btn-xs" href="deconnexion.php">Deconnexion</a>
-                        </form>
+                        <!--</form>-->
                     </div>
                 </div>
                 <h1>Espace Membre</h1>
@@ -106,13 +106,13 @@ $listEnquetes = $enqueteMapper->getEnqueteByIdUtilisateur($enquete, $pagination)
         <script src="js/jquery-1.11.0.js"></script>
         <script src="js/bootstrap.min.js"></script>
         
-        <script>
+       <!-- <script>
         (function($) {
             $("#modal-yes").on("click", function(e){
                 e.preventDefault();
                 $("#account").submit();
             });
         })(jQuery);
-        </script>
+        </script>-->
     </body>
 </html>
