@@ -81,8 +81,8 @@ if (!array_diff($check_array, array_keys($_POST))) {
     }
 
     $enqueteMapper->getEnqueteByIdUtilisateur($enquete, $pagination);
-//    header("Location: member.php?page=" . $pagination->get_number_pages());
-//    exit();
+    header("Location: member.php?page=" . $pagination->get_number_pages());
+    exit();
 }
 ?>
 

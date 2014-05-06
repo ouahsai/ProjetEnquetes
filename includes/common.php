@@ -59,4 +59,6 @@ if (isset($_POST['delete'])) {
 //
 //    // suppression de l'utilisateur
 //    $utilisateurMapper->deleteProfilByIdUtilisateur($_SESSION["id_user"]);
+    
+//    header("Location: index.php");
 }

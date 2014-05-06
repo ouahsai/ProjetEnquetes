@@ -108,7 +108,8 @@ $listEnquetes = $enqueteMapper->getEnqueteByIdUtilisateur($enquete, $pagination)
         
         <script>
         (function($) {
-            $("#modal-yes").on("click", function(){
+            $("#modal-yes").on("click", function(e){
+                e.preventDefault();
                 $("#account").submit();
             });
         })(jQuery);
