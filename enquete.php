@@ -2,6 +2,10 @@
 require_once './includes/autoload.php';
 require_once './includes/check_session.php';
 
+/**********************************************
+ * ERRORS
+ */
+
 $message = "";
     
 //var_dump($_POST["question"]);
@@ -29,6 +33,10 @@ if (!isset($_POST["question"]) || empty($_POST["question"])) {
 if (!isset($_POST["type"]) || empty($_POST["type"])) {
     $message = $listMessages[2];
 }
+
+/**********************************************
+ * INSERT
+ */
 
 // récupère la liste des libelle de type_question 
 // pour l'affichage sous forme de liste déroulante
@@ -84,6 +92,14 @@ if (!array_diff($check_array, array_keys($_POST))) {
     header("Location: member.php?page=" . $pagination->get_number_pages());
     exit();
 }
+
+/**********************************************
+ * UPDATE
+ */
+if (isset($_GET['id'])) {
+    
+}
+
 ?>
 
 <!DOCTYPE html>
