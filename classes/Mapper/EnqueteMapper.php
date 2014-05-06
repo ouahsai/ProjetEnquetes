@@ -111,6 +111,21 @@ class EnqueteMapper
             return false;
         }
     }
+    public function getAllEnquete() 
+    {
+        $query = "SELECT * FROM enquete";
+
+        $stmt = $this->_pdo->query($query);
+        
+        $succes = $stmt->execute();
+        
+        
+        if(!$succes) {
+            return false;
+        }
+        $listEnquetes = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $listEnquetes;
+    }
     
         
 }

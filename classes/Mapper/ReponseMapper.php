@@ -11,9 +11,22 @@ class ReponseMapper
         $this->_pdo = \Manager\PDO::pdoConnection();
     }
     
-    public function add()
+    public function add(\Entity\Reponse $reponse)
     {
-       
+       $query = "INSERT INTO reponse (id_question, valeur_reponse, unique_user_id)
+                  VALUES (:id_question, :valeur_reponse, :unique_user_id)";
+        
+        $stmt = $this->_pdo->prepare($query);
+        
+        $stmt->bindValue(":id_question", $reponse->getId_question());
+        $stmt->bindValue(":valeur_reponse", $reponse->getValeur_reponse());
+        $stmt->bindValue(":unique_user_id", uniqid());
+        
+        $succes = $stmt->execute();
+        
+        if(!$succes) {
+            return false;
+        } 
     }
     
     public function totalReponseByIdEnquete(\Entity\Reponse $reponse)
