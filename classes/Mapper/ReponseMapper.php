@@ -58,12 +58,13 @@ class ReponseMapper
         $stmt->bindValue(":id_enquete", $reponse->getId_enquete());
         //$stmt->bindValue(":libelle_type_question", $reponse->getLibelle_type_question());
 
-        $succes = $stmt->execute();
-        
-        if(!$succes) {
+        $stmt->execute();
+        $reponseTexte = $stmt->fetchall(\PDO::FETCH_ASSOC);
+
+        if(!$reponseTexte) {
             return false;
         }
-        $reponseTexte = $stmt->fetchall(\PDO::FETCH_ASSOC);
+        
         return $reponseTexte;
     }
     
@@ -91,7 +92,7 @@ class ReponseMapper
         if(!$succes) {
             return false;
         }
-        $reponseNumQuestion = $succes->fetchall(\PDO::FETCH_ASSOC);
+        $reponseNumQuestion = $stmt->fetchall(\PDO::FETCH_ASSOC);
         return $reponseNumQuestion;
     }
     
@@ -104,7 +105,7 @@ class ReponseMapper
                     INNER JOIN type_question t ON t.id_type_question = q.id_type_question
                     WHERE q.id_question = :id_question
                     AND q.id_enquete = :id_enquete
-                    AND t.libelle_type_question = :libelle_type_question
+                    AND t.libelle_type_question = \"QCM\"
                     GROUP BY q.libelle_question, r.valeur_reponse
                     ORDER BY nb_reponse DESC";
               
@@ -112,14 +113,14 @@ class ReponseMapper
             
         $stmt->bindValue(":id_question", $reponse->getId_question());
         $stmt->bindValue(":id_enquete", $reponse->getId_enquete());
-        $stmt->bindValue(":libelle_type_question", $reponse->getLibelle_type_question());
+        //$stmt->bindValue(":libelle_type_question", $reponse->getLibelle_type_question());
         
         $succes = $stmt->execute();
         
         if(!$succes) {
             return false;
         }
-        $reponseQuestionQCM = $succes->fetchall(\PDO::FETCH_ASSOC);
+        $reponseQuestionQCM = $stmt->fetchall(\PDO::FETCH_ASSOC);
         return $reponseQuestionQCM;
     }
     

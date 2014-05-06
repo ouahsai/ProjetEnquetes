@@ -54,8 +54,7 @@ if (isset($_GET['update'])) {
     $questionMapper = new Mapper\QuestionMapper();
     $qcmMapper = new Mapper\QcmMapper();
     $reponseMapper = new Mapper\ReponseMapper();
-    
-    
+        
     $reponseMapper->deleteReponseByIdUtilisateur($reponse);
     $qcmMapper->deleteQCMByIdUtilisateur($qcm);
     $questionMapper->deleteQuestionByIdUtilisateur($question);

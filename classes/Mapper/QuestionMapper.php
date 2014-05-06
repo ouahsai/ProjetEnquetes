@@ -77,4 +77,19 @@ class QuestionMapper
         }
     } 
    
+    public function getQuestionsByIdEnquete(\Entity\Question $question)
+    {
+        $query = "SELECT q.libelle_question, q.id_question, t.libelle_type_question
+                  FROM question q
+                  INNER JOIN type_question t ON t.id_type_question = q.id_type_question
+                  WHERE id_enquete = :id_enquete";
+        
+        $stmt = $this->_pdo->prepare($query);
+        $stmt->bindValue("id_enquete", $question->getId_enquete());
+        $stmt->execute();
+        
+        $listQuestion = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        
+        return $listQuestion;
+    } 
 }

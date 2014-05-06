@@ -3,13 +3,16 @@ require_once './includes/autoload.php';
 session_start();
 
 if (isset($_GET['id'])) {
+    
     $reponse = new Entity\Reponse();
     $reponseMapper = new Mapper\ReponseMapper();
     $reponse->setId_enquete($_GET['id']);
-    $reponse->setId_question(8);
     $nbReponse = $reponseMapper->totalReponseByIdEnquete($reponse);
-    $reponsequestion = $reponseMapper->reponseQuestionTexte($reponse);
-    var_dump($reponsequestion);
+    
+    $question = new Entity\Question();
+    $questionMapper = new Mapper\QuestionMapper();
+    $question->setId_enquete($_GET['id']);
+    $questions = $questionMapper->getQuestionsByIdEnquete($question);  
     
 }
 
@@ -48,11 +51,51 @@ if (isset($_GET['id'])) {
             <div class="row">
                 <div class="col-md-12">
                     <h5>Total de répondants : <?php echo $nbReponse[0]['nb_reponse']; ?></h5>
-                    
-                    <h6>Question :  <?php echo $reponsequestion[0]['libelle_question'] ?> </h6>
-                    <p>réponse:  <?php foreach ($reponsequestion as $value){ ?>
-                    <li><?php echo $value['valeur_reponse']; ?></li>
-                    <?php } ?> </p>
+                            <?php foreach ($questions as $question): ?>
+                                <h3>Question :  <?php echo $question['libelle_question'];
+                                                            $reponse->setId_question($question['id_question']); ?></h3>
+                                                            <?php if($question['libelle_type_question']==='Nombre'):
+                                                               
+                                                            $reponseQuestion = $reponseMapper->reponseQuestionNumerique($reponse); ?>
+                                                            <p>réponse:  <ul><?php foreach ($reponseQuestion as $value): ?>
+                                                                            <li>Valeur minimum :&nbsp<?php echo $value['min_value']; ?></li>
+                                                                            <li>Valeur maximale :&nbsp<?php echo $value['max_value']; ?></li>
+                                                                            <li>Moyenne des réponses :&nbsp<?php echo $value['avg_value']; ?></li>
+                                                                            <li>Somme des réponses :&nbsp<?php echo $value['total']; ?></li>
+                                                                            <?php endforeach;?>
+                                                            </ul></p>
+                                
+                                                            
+                                                            <?php elseif($question['libelle_type_question']==='QCM'):
+                                                                
+                                                               $reponseQuestion = $reponseMapper->reponseQuestionQCM($reponse); ?>
+                                                            <p>réponse:</p>
+                                                            <table class="table table-striped">    
+                                                                <tr>
+                                                                    <td>Reponses</td> 
+                                                                    <td>Nombre de reponses</td>
+                                                                </tr>
+                                                                <?php foreach ($reponseQuestion as $value): ?>
+                                                                <tr>
+                                                                    <td><?php echo $value['valeur_reponse']; ?></td>                                                                                                         <td><?php echo $value['nb_reponse']; ?></td>
+                                                                </tr>
+                                                                <?php endforeach; ?>
+                                                            </table>
+                                                            
+                                                                
+                                                            <?php else : 
+                                                                
+                                                            $reponseQuestion = $reponseMapper->reponseQuestionTexte($reponse);
+                                                            ?>                                                             
+                                                            <p>réponse:<?php foreach ($reponseQuestion as $value): ?>
+                                                                            <li><?php echo $value['valeur_reponse']; ?></li>
+                                                                        <?php endforeach;?></p>
+                                                            
+                                                                
+                                                            <?php endif;?>
+                            <?php endforeach; ?>
+                
+                
                 </div>
             </div>
         </div>
