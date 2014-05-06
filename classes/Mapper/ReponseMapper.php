@@ -134,4 +134,24 @@ class ReponseMapper
             return false;
         }
     }
+    
+    public function deleteReponseByIdUtilisateur(\Entity\Reponse $reponse)
+    {
+        $query = "DELETE FROM reponse 
+                  WHERE id_question 
+                  IN ( SELECT qu.id_question
+                        FROM question qu, enquete en
+                        WHERE qu.id_enquete = en.id_enquete
+                        AND en.id_utilisateur = :id_utilisateur)";
+        
+        $stmt = $this->_pdo->prepare($query);
+        
+        $stmt->bindValue("id_utilisateur", $reponse->getUtilisateur()->getId_utilisateur());
+
+        $succes = $stmt->execute();
+        
+        if(!$succes) {
+            return false;
+        }
+    }
 }

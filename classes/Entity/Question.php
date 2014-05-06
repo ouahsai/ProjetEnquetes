@@ -19,6 +19,11 @@ class Question
      */
     protected $id_type_question;
     
+    /**
+     * Association avec Utilisateur
+     * @var Utilisateur
+     */
+    protected $utilisateur;
     
     
     public function getId_question() {
@@ -37,6 +42,10 @@ class Question
         return $this->id_type_question;
     }
 
+    public function getUtilisateur() {
+        return $this->utilisateur;
+    }
+    
     public function setId_question($id_question) {
         $this->id_question = (int) $id_question;
         return $this;
@@ -54,6 +63,11 @@ class Question
 
     public function setId_type_question($id_type_question) {
         $this->id_type_question = (int) $id_type_question;
+        return $this;
+    }
+    
+    public function setUtilisateur(\Entity\Utilisateur $utilisateur) {
+        $this->utilisateur = $utilisateur;
         return $this;
     }
 

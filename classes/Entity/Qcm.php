@@ -13,6 +13,12 @@ class Qcm
      */
     protected $id_question;
     
+    /**
+     * Association avec Utilisateur
+     * @var Utilisateur
+     */
+    protected $utilisateur;
+    
     
     public function getId_qcm() {
         return $this->id_qcm;
@@ -24,6 +30,10 @@ class Qcm
 
     public function getId_question() {
         return $this->id_question;
+    }
+    
+    public function getUtilisateur() {
+        return $this->utilisateur;
     }
 
     public function setId_qcm($id_qcm) {
@@ -40,4 +50,10 @@ class Qcm
         $this->id_question = (int) $id_question;
         return $this;
     }
+    
+    public function setUtilisateur(\Entity\Utilisateur $utilisateur) {
+        $this->utilisateur = $utilisateur;
+        return $this;
+    }
+    
 }

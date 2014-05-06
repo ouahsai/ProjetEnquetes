@@ -60,5 +60,21 @@ class QuestionMapper
         }
     } 
     
+    public function deleteQuestionByIdUtilisateur(\Entity\Question $question)
+    {
+        $query = "DELETE FROM question
+                 WHERE id_enquete 
+                 IN (SELECT en.id_enquete
+                    FROM enquete en
+                    WHERE en.id_utilisateur = :id_utilisateur)";
+        
+        $stmt = $this->_pdo->prepare($query);
+        $stmt->bindValue("id_utilisateur", $question->getUtilisateur()->getId_utilisateur());
+        $succes = $stmt->execute();
+        
+        if(!$succes) {
+            return false;
+        }
+    } 
    
 }

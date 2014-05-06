@@ -43,4 +43,24 @@ class QcmMapper
             return false;
         }
     }
+    
+    public function deleteQCMByIdUtilisateur(\Entity\Qcm $qcm)
+    {
+        $query = "DELETE FROM qcm 
+            WHERE id_question 
+            IN (SELECT qu.id_question
+                FROM question qu, enquete en
+                WHERE qu.id_enquete = en.id_enquete
+                AND en.id_utilisateur = :id_utilisateur)";
+
+        $stmt = $this->_pdo->prepare($query);
+
+        $stmt->bindValue(":id_utilisateur", $qcm->getUtilisateur()->getId_utilisateur());
+        
+        $succes = $stmt->execute();
+
+        if(!$succes) {
+            return false;
+        }
+    }
 }

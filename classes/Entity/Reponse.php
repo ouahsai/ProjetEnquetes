@@ -27,6 +27,12 @@ class Reponse
      * @var Type_Question
      */
     protected $libelle_type_question;
+    
+    /**
+     * Association avec Utilisateur
+     * @var Utilisateur
+     */
+    protected $utilisateur;
         
     public function getId_reponse() {
         return $this->id_reponse;
@@ -54,6 +60,10 @@ class Reponse
     
     public function getLibelle_type_question() {
         return $this->libelle_type_question;
+    }
+    
+    public function getUtilisateur() {
+        return $this->utilisateur;
     }
 
     public function setId_reponse($id_reponse) {
@@ -88,6 +98,11 @@ class Reponse
     
     public function setLibelle_type_question($libelle_type_question) {
         $this->libelle_type_question = (string) $libelle_type_question;
+        return $this;
+    }
+    
+    public function setUtilisateur(\Entity\Utilisateur $utilisateur) {
+        $this->utilisateur = $utilisateur;
         return $this;
     }
 }
