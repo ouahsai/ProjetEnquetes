@@ -12,30 +12,35 @@ class TypeQuestionMapper
         $this->_pdo = \Manager\PDO::pdoConnection();
     }
     
-    public function add(\Entity\TypeQuestion $type_question)
+    public function getAll()
     {
-//     
-//        $query = "INSERT INTO type_question (libelle_type_question)
-//                  VALUES (:libelle_type_question)";
-//
-//        $stmt = $this->_pdo->prepare($query);
-//        $stmt->bindValue("libelle_type_question", $type_question->getLibelle_type_question());
-//        
-//        $succes = $stmt->execute();
-//        
-//        if(!$succes) {
-//            return false;
-//        }
-//        
-//        return $this->_pdo->lastInsertId();
-    } 
+        $query = "SELECT libelle_type_question
+                  FROM type_question";
+        
+        $stmt = $this->_pdo->query($query);
+        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
+        
+        $results = $stmt->fetchAll();
+        
+        return $results;
+    }
     
-    public function getTypeQuestion(){
+    public function getIdTypeQuestionByLibelle(\Entity\TypeQuestion $type_question)
+    {
+        $query = "SELECT id_type_question as id
+                  FROM type_question
+                  WHERE libelle_type_question = :libelle";
        
-       $query = "SELECT id_type_question, libelle_type_question FROM type_question";
-       $stmt = $this->_pdo->query($query);
-       $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
-       return $result;
+        $stmt = $this->_pdo->prepare($query);
+        $stmt->bindValue("libelle", $type_question->getLibelle_type_question());
+        $stmt->execute();
+   
+        $results = $stmt->fetch();
+        
+        if(empty($results)) {
+            return false;
+        }
+        
+        return $results["id"];
     }
 }

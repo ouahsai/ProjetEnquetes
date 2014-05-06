@@ -6,7 +6,7 @@
         initText = "Type de réponse à cette question",
         caret = "&nbsp;<span class='caret'></span>",
         currentButtonHtml = $controls.find('.btn-group button')
-                            .html(initText + caret).html();
+                            .html(initText + caret).html(),
     init = function() {
         $qcm.hide();
         events();

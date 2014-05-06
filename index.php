@@ -34,7 +34,7 @@ if (isset($_POST['connect_email'], $_POST['connect_pwd'])) {
     $mapper = new \Mapper\UtilisateurMapper();
 
     if ($user = $mapper->login($utilisateur)) { //assigns the return value to $user_id, and evaluates it as a boolean afterwards
-        //$message = $user->getPrenom() . " connecté";
+
         header("Location: member.php?page=1");
         exit();
         

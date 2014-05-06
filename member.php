@@ -1,27 +1,23 @@
 <?php
 require_once './includes/autoload.php';
+require_once './includes/check_session.php';
 
-session_start();
+$pagination = new Entity\Pagination();
 
-//si la session utilisateur existe, la personne est connecté donc on 
-//recupere la liste des enquetes de cette personne
-if (isset($_SESSION['user_id'])) {
-    
-    $pagination = new Entity\Pagination();
-
-    if (isset($_GET['page'])) {
-        $pagination->setPageDebut($_GET['page']);
-        $page = $_GET['page'];
-    }
-    
-    $enquete = new Entity\Enquete();
-    $enqueteMapper = new Mapper\EnqueteMapper();
-    
-    require_once './suppression.php';
-    
-    $enquete->setId_utilisateur((int) $_SESSION['user_id']);
-    $listEnquetes = $enqueteMapper->getEnqueteByIdUtilisateur($enquete, $pagination);
+if (isset($_GET['page'])) {
+    $pagination->setPageDebut($_GET['page']);
+    $page = $_GET['page'];
 }
+
+require_once './includes/common.php';
+
+$enquete = new Entity\Enquete();
+$enqueteMapper = new Mapper\EnqueteMapper();
+
+//recupere la liste des enquetes de la personne connectée
+$enquete->setId_utilisateur((int) $_SESSION['user_id']);
+$listEnquetes = $enqueteMapper->getEnqueteByIdUtilisateur($enquete, $pagination);
+
 ?>
 
 <!DOCTYPE html>
@@ -44,11 +40,11 @@ if (isset($_SESSION['user_id'])) {
                     <img src="img/users_default.png" alt="photo profil" title="Photo profil" height="52" width="52">
                     <div class="block-user">
                         <h4>Utilisateur connecté : <?= htmlspecialchars($_SESSION["nom"] ." ". $_SESSION["prenom"]) ?></h4>
-                        <div>
+                        <form id="account" action="common.php" method="post">
                             <a class="btn btn-default btn-xs" href="index.php">Modifier compte</a>
-                            <a class="btn btn-default btn-xs" href="">Supprimer compte</a>
+                            <a class="btn btn-default btn-xs" href="#" data-toggle="modal" data-target="#myModal">Supprimer compte</a>
                             <a class="btn btn-default btn-xs" href="deconnexion.php">Deconnexion</a>
-                        </div>
+                        </form>
                     </div>
                 </div>
                 <h1>Espace Membre</h1>
@@ -62,9 +58,9 @@ if (isset($_SESSION['user_id'])) {
                             <tr>
                                 <td><div><?= $value['titre'] ?></div></td>
                                 <td><a class="btn btn-default btn-sm" href="enquete.php">Voir l'enquête</a></td>
-                                <td><a value="<?= htmlspecialchars($value['id_enquete'])?>" class="btn btn-default btn-sm" href="resultats.php?id=<?= htmlspecialchars($value['id_enquete']) ?>">Résultats</a></td>
+                                <td><a value="<?= htmlspecialchars($value['id_enquete']) ?>" class="btn btn-default btn-sm" href="resultats.php?id=<?= htmlspecialchars($value['id_enquete']) ?>">Résultats</a></td>
                                 <td><a value="<?= htmlspecialchars($value['id_enquete']) ?>" class="btn btn-warning btn-sm" href="enquete.php?id=<?= htmlspecialchars($value['id_enquete']) ?>">Modifier</a></td>
-                                <td><a value="<?= htmlspecialchars($value['id_enquete']) ?>" class="btn btn-danger btn-sm" href="suppression.php?id=<?= htmlspecialchars($value['id_enquete']) ?>">Supprimer</a></td>
+                                <td><a value="<?= htmlspecialchars($value['id_enquete']) ?>" class="btn btn-danger btn-sm" href="member.php?id=<?= htmlspecialchars($value['id_enquete']) ?>">Supprimer</a></td>
                             </tr>
                         <?php endforeach; ?>
                     </table>
@@ -86,5 +82,36 @@ if (isset($_SESSION['user_id'])) {
                 <a class="btn btn-primary" href="enquete.php">Nouvelle Enquête</a>
             <?php endif; ?>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="title"></span></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Voulez-vous vraiment supprimer le compte utilisateur ?</p>
+                        <p>Toutes les enquêtes sont perdues.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+                        <a href="#" id="modal-yes" class="btn btn-primary">Oui</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script src="js/jquery-1.11.0.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        
+        <script>
+        (function($) {
+            $("#modal-yes").on("click", function(){
+                $("#account").submit();
+            });
+        })(jQuery);
+        </script>
     </body>
 </html>

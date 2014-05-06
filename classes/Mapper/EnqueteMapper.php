@@ -40,9 +40,11 @@ class EnqueteMapper
         $stmt = $this->_pdo->prepare($query);
         $stmt->bindValue(":id", $enquete->getId_utilisateur());
         $succes = $stmt->execute();
+        
         if(!$succes) {
             return false;
         }
+        
         $nb_elt = $stmt->fetch(\PDO::FETCH_ASSOC)['nb_elt'];
         
         $pagination->set_number_pages($nb_elt);
@@ -57,13 +59,30 @@ class EnqueteMapper
         $stmt->bindValue(":id", $enquete->getId_utilisateur());
         $stmt->execute();
         $listEnquetes = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        if ($listEnquetes){
-            return $listEnquetes;
-        }
-        else{
+        
+        if(empty($listEnquetes)) {
             return false;
         }
+        return $listEnquetes;
     }
+    
+    public function getIdEnqueteByIdUtilisateur(\Entity\Enquete $enquete)
+    {
+        $query = "SELECT id_enquete
+                  FROM enquete
+                  WHERE id_utilisateur = :id";
+        
+        $stmt = $this->_pdo->prepare($query);
+        $stmt->bindValue("id", $enquete->getId_utilisateur());
+        $stmt->execute();
+        
+        $listIdEnquete = $stmt->fetchAll(\PDO::FETCH_COLUMN);
+        
+        if(empty($listIdEnquete)) {
+            return false;
+        }
+        return $listIdEnquete;
+    } 
     
     public function deleteEnqueteById(\Entity\Enquete $enquete) 
     {
@@ -72,14 +91,25 @@ class EnqueteMapper
 
         $stmt = $this->_pdo->prepare($query);
         $stmt->bindValue(":id", $enquete->getId_enquete());
-        $stmt->execute();
-        if ($stmt) {
-            $message = "Votre enquête a été supprimée de la base de données";
-            return $message;
-        } else {
-            $message = "Une erreur est survenue dans la suppression de l'enquête, veuillez reessayer";
-            return $message;
+        $succes = $stmt->execute();
+        
+        if(!$succes) {
+            return false;
         }
     }
+    
+    public function deleteEnqueteByIdUtilisateur(\Entity\Enquete $enquete) 
+    {
+        $query = "DELETE FROM enquete
+                  WHERE id_utilisateur = :id";
 
+        $stmt = $this->_pdo->prepare($query);
+        $stmt->bindValue(":id", $enquete->getId_utilisateur());
+        $succes = $stmt->execute();
+        
+        if(!$succes) {
+            return false;
+        }
+    }
+    
 }

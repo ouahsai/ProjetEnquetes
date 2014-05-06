@@ -1,12 +1,9 @@
 <?php
 require_once './includes/autoload.php';
-session_start();
+require_once './includes/check_session.php';
 
 $message = "";
-
-$value_typeQuestion = $typeQuestionMapper->getTypeQuestion();
-var_dump($value_typeQuestion);
-        
+    
 //var_dump($_POST["question"]);
 $listMessages = [
     "Vous devez renseigner un titre d'enquête",
@@ -33,6 +30,11 @@ if (!isset($_POST["type"]) || empty($_POST["type"])) {
     $message = $listMessages[2];
 }
 
+// récupère la liste des libelle de type_question 
+// pour l'affichage sous forme de liste déroulante
+$typeQuestionMapper = new Mapper\TypeQuestionMapper();
+$libelle_type_question = $typeQuestionMapper->getAll();
+
 // équivalent de if(isset(), ..., ...)
 $check_array = array('title', 'description', 'question', 'type');
 if (!array_diff($check_array, array_keys($_POST))) {
@@ -43,8 +45,6 @@ if (!array_diff($check_array, array_keys($_POST))) {
     $qcm = new \Entity\Qcm();
     $pagination = new Entity\Pagination();
     
-    $typeQuestionMapper = new Mapper\TypeQuestionMapper();
-
     $enquete->setId_utilisateur($_SESSION['user_id'])
             ->setTitre($_POST["title"])
             ->setDescription($_POST["description"]);
@@ -54,20 +54,18 @@ if (!array_diff($check_array, array_keys($_POST))) {
   
     foreach ($_POST["question"] as $key => $value) {
 
-        // select into typeQuestion
+        // select id_type_question from typeQuestion
         $typeQuestion->setLibelle_type_question($_POST["type"][$key]);
-        
-        
-        
-        //$id_type_question = $typeQuestionMapper->add($typeQuestion); // (string) last_insert_id typeQuestion
+        $id_type_question = $typeQuestionMapper->getIdTypeQuestionByLibelle($typeQuestion); // (int) id typeQuestion
         
         // insert into question
         $question->setId_enquete((int) $id_enquete)  // needs to be converted
-                ->setId_type_question((int) $id_type_question)
-                ->setLibelle_question($value);
+                 ->setId_type_question($id_type_question)
+                 ->setLibelle_question($value);
 
         $questionMapper = new Mapper\QuestionMapper();
         $id_question = $questionMapper->add($question); // (string) last_insert_id question
+        
         // insert into qcm
         if($_POST["type"][$key] === "QCM") {
             $qcmValues = $_POST["qcm$key"];
@@ -83,8 +81,8 @@ if (!array_diff($check_array, array_keys($_POST))) {
     }
 
     $enqueteMapper->getEnqueteByIdUtilisateur($enquete, $pagination);
-    header("Location: member.php?page=" . $pagination->get_number_pages());
-    exit();
+//    header("Location: member.php?page=" . $pagination->get_number_pages());
+//    exit();
 }
 ?>
 
@@ -154,8 +152,8 @@ if (!array_diff($check_array, array_keys($_POST))) {
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"></button>
                                         <ul class="dropdown-menu" role="menu">
                                             <?php
-                                            foreach ($value_typeQuestion as $value) : ?>
-                                            <li><a href="#"><?php echo $value['libelle_type_question']; ?></a></li>
+                                            foreach ($libelle_type_question as $value) : ?>
+                                                <li><a href="#"><?php echo $value['libelle_type_question']; ?></a></li>
                                             <?php endforeach; ?>
                                             <input type="hidden" class="hidden" name="type[]">
                                         </ul>

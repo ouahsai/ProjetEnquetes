@@ -26,3 +26,7 @@
 .member table td div { text-overflow: ellipsis; overflow: hidden; width:35em; white-space:nowrap; }
 .member .pagination-container { padding-top:20px; border-top: 1px solid #eee; }
 .member .pagination { float:right; margin:0; }
+
+.modal-header { min-height:47px; }
+.modal-body p:first-child { font-size:1.3em; }
+.modal-footer { margin-top:0; }

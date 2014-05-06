@@ -16,22 +16,6 @@ class ReponseMapper
        
     }
     
-    public function deleteReponseByIdQuestion(\Entity\Reponse $reponse)
-    {
-        $query = "DELETE FROM reponse
-                  WHERE id_question = :id_question";
-        
-        $stmt = $this->_pdo->prepare($query);
-        
-        $stmt->bindValue("id_question", $reponse->getId_question());
-
-        $succes = $stmt->execute();
-        
-        if(!$succes) {
-            return false;
-        }
-    } 
-    
     public function totalReponseByIdEnquete(\Entity\Reponse $reponse)
     {
         $query = "SELECT count(r.unique_user_id)as nb_reponse
@@ -133,5 +117,21 @@ class ReponseMapper
         }
         $reponseQuestionQCM = $succes->fetchall(\PDO::FETCH_ASSOC);
         return $reponseQuestionQCM;
+    }
+    
+    public function deleteReponseByIdQuestion(\Entity\Reponse $reponse)
+    {
+        $query = "DELETE FROM reponse
+                  WHERE id_question = :id_question";
+        
+        $stmt = $this->_pdo->prepare($query);
+        
+        $stmt->bindValue("id_question", $reponse->getId_question());
+
+        $succes = $stmt->execute();
+        
+        if(!$succes) {
+            return false;
+        }
     }
 }

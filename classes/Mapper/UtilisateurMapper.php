@@ -33,6 +33,7 @@ class UtilisateurMapper
         }
         
         $id = $this->_pdo->lastInsertId();
+        
         session_start();
         $_SESSION['user_id'] = $id;
         $_SESSION['nom'] = $utilisateur->getNom();
@@ -42,6 +43,7 @@ class UtilisateurMapper
     public function login(\Entity\Utilisateur $utilisateur)
     {
         if ($user = $this->_checkCredentials($utilisateur)) {
+            
             session_start();
             session_regenerate_id(true);
             $_SESSION['user_id'] = $user->getId_utilisateur();
@@ -84,7 +86,7 @@ class UtilisateurMapper
         return $encryptPwd;
     }
     
-    private function updateProfil(\Entity\Utilisateur $utilisateur)
+    public function updateProfilByIdUtilisateur(\Entity\Utilisateur $utilisateur)
     {        
         $query = "UPDATE utilisateur 
                   SET (nom = :nom, prenom = :prenom, email = :email, password = :password)
@@ -98,25 +100,27 @@ class UtilisateurMapper
         $stmt->bindValue(":id_utilisateur", $_SESSION['user_id']);
         
         $succes = $stmt->execute();
+        
         if(!$succes) {
             return false;
         }
+        
         $_SESSION['nom'] = $utilisateur->getNom();
         $_SESSION['prenom'] = $utilisateur->getPrenom();
     }
-    private function deleteProfil(\Entity\Utilisateur $utilisateur)
+    
+    public function deleteProfilByIdUtilisateur(\Entity\Utilisateur $utilisateur)
     {        
         $query = "DELETE FROM utilisateur
                   WHERE id_utilisateur = :id_utilisateur";
         
         $stmt = $this->_pdo->prepare($query);
-        $stmt->bindValue(":id_utilisateur", $_SESSION['user_id']);
+        $stmt->bindValue(":id_utilisateur", $utilisateur->getId_utilisateur()); //$_SESSION['user_id']
         
         $succes = $stmt->execute();
+        
         if(!$succes) {
             return false;
         }
-        session_destroy();
-        header('Location: index.php');
     }
 }
