@@ -1,5 +1,15 @@
 <?php
-require_once './includes/check_session.php';
+require_once './includes/autoload.php';
+session_start();
+
+if (isset($_GET['id'])) {
+    $reponse = new Entity\Reponse();
+    $reponseMapper = new Mapper\ReponseMapper();
+    $reponse->setId_enquete($_GET['id']);
+    $nbReponse = $reponseMapper->totalReponseByIdEnquete($reponse);
+    var_dump($nbReponse);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +35,8 @@ require_once './includes/check_session.php';
             <div class="row">
                 <div class="col-md-6">
                     <div class="page-header">
-                        <h3> Titre enquete : Enquête sur les animaux</h3>
+                        <h3> Titre enquete : <?php echo $nbReponse[0]['titre']; ?></h3>
+                        <h4>Description :</h4><p><?php echo $nbReponse[0]['description']; ?></p>
                     </div>
                     
                 </div>
@@ -33,7 +44,7 @@ require_once './includes/check_session.php';
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <h4>Total de reponses :</h4>
+                    <h5>Total de reponses : <?php echo $nbReponse[0]['nb_reponse']; ?></h5>
                     <p>nombre de resultat</p>
                     <h6>Question1</h6>
                     <p>réponse</p>
