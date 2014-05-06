@@ -63,3 +63,30 @@ if (isset($_POST['delete'])) {
     
 //    header("Location: index.php");
 }
+
+if (isset($_POST['update'])) {
+    
+    $enquete = new Entity\Enquete();
+    $question = new Entity\Question();
+    $qcm = new Entity\Qcm();
+    $reponse = new Entity\Reponse();
+    
+    $utilisateur->setId_utilisateur($_POST['update']);
+    $enquete->setUtilisateur($utilisateur);
+    $question->setUtilisateur($utilisateur);
+    $qcm->setUtilisateur($utilisateur);
+    $reponse->setUtilisateur($utilisateur);
+    
+    $enqueteMapper = new Mapper\EnqueteMapper();
+    $questionMapper = new Mapper\QuestionMapper();
+    $qcmMapper = new Mapper\QcmMapper();
+    $reponseMapper = new Mapper\ReponseMapper();
+        
+    $reponseMapper->deleteReponseByIdUtilisateur($reponse);
+    $qcmMapper->deleteQCMByIdUtilisateur($qcm);
+    $questionMapper->deleteQuestionByIdUtilisateur($question);
+    $enqueteMapper->deleteEnqueteByIdUtilisateur($enquete);
+    $utilisateurMapper->deleteProfilByIdUtilisateur($utilisateur);
+  
+    header("Location: index.php");
+}
