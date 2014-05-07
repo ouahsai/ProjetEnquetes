@@ -17,20 +17,18 @@
             var newEntry = cloneElement(e, $(this), '');
             newEntry.find('.entry-qcm:not(:last)').remove();
             
-            $controls.trigger("setIndexes")
-                     .trigger("setSessionStorage");
+            $controls.trigger("setIndexes");
 
-            newEntry.find('.btn-group > button').html(currentButtonHtml)
+            newEntry.find('.list .buttonType').html(currentButtonHtml)
                     .end().find('.qcm').hide();
 
         }).on('click', '.btn-remove', function(e) {
             e.preventDefault();
 
             $(this).parents('.entry:first').remove();
-            $controls.trigger("setIndexes")
-                     .trigger("setSessionStorage");
+            $controls.trigger("setIndexes");
 
-        }).on('click', '.btn-group > ul a', function(e) {
+        }).on('click', '.list a', function(e) {
             e.preventDefault();
                
             var currentText = $(this).text(),
@@ -43,10 +41,8 @@
 
             if ($(this).parent().index() === 2) { //case QCM
                 $currentQcm.show();
-                $controls.trigger("setSessionStorage");
             } else {
                 $currentQcm.hide();
-                $controls.trigger("setSessionStorage");
             }
  
         }).on('click', '.btn-add-qcm', function(e) {
@@ -60,9 +56,6 @@
                 $(this).find("input[name]")
                        .attr("name", "qcm"+index+"[]");
             });                        
-
-        }).on("setSessionStorage", function() {
-            sessionStorage.setItem("Form", $(this).html());
         });
         
         var cloneElement = function(e, $this, suffix) {
@@ -79,7 +72,8 @@
 
             return newEntry;    
         };
-    };
+    }
+
     if ($('.controls').length) { init(); }
     
 })(jQuery);
