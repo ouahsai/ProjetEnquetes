@@ -87,7 +87,8 @@ class ReponseMapper
                   MIN( CAST( r.VALEUR_REPONSE AS SIGNED ) ) AS min_value,
                   MAX( CAST( r.VALEUR_REPONSE AS SIGNED ) ) AS max_value,
                   AVG( CAST( r.VALEUR_REPONSE AS SIGNED ) ) AS avg_value,
-                  SUM( CAST( r.VALEUR_REPONSE AS SIGNED ) ) AS total
+                  SUM( CAST( r.VALEUR_REPONSE AS SIGNED ) ) AS total,
+                  r.VALEUR_REPONSE
                   FROM reponse r
                   INNER JOIN question q ON q.id_question = r.id_question
                   INNER JOIN enquete e ON e.id_enquete = q.id_enquete

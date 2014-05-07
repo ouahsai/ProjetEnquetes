@@ -41,7 +41,7 @@ $listEnquetes = $enqueteMapper->getEnqueteByIdUtilisateur($enquete, $pagination)
                     <div class="block-user">
                         <h4>Utilisateur connecté : <?= htmlspecialchars($_SESSION["nom"] ." ". $_SESSION["prenom"]) ?></h4>
                         <form id="account" action="./includes/common.php" method="post">
-                            <a class="btn btn-default btn-xs" href="index.php">Modifier compte</a>
+                            <a class="btn btn-default btn-xs" href="modifCompteMembre.php">Modifier compte</a>
                             <a class="btn btn-default btn-xs" href="" data-toggle="modal" data-target="#myModal">Supprimer compte</a><input type="hidden" name="delete">
                             <a class="btn btn-default btn-xs" href="deconnexion.php">Deconnexion</a>
                         </form>

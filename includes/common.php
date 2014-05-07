@@ -94,3 +94,22 @@ if (isset($_POST['delete'])) {
   
     header("Location: ../index.php");
 }
+//pour modification compte dans la base
+if (isset($_POST['lastname'], $_POST['firstname'],
+          $_POST['join_email'], $_POST['join_pwd'],$_SESSION['user_id'] )) 
+{
+    $utilisateur = new Entity\Utilisateur();
+    $utilisateur->setId_utilisateur((int) $_SESSION['user_id']);
+        
+    // ci dessous peut s'automatiser avec un Hydrateur (en anglais Hydrator)
+    $utilisateur->setNom($_POST['lastname'])
+                ->setPrenom($_POST['firstname'])
+                ->setEmail($_POST['join_email'])
+                ->setPassword($_POST['join_pwd']);
+    
+    $utilisateurMapper = new Mapper\UtilisateurMapper();
+    $utilisateurMapper->updateProfilByIdUtilisateur($utilisateur);
+    
+    header("Location: member.php?page=1");
+    exit();
+}
