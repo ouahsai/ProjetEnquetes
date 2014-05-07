@@ -9,7 +9,7 @@ if (isset($_GET['id'])) {
     $reponseMapper = new Mapper\ReponseMapper();
     $reponse->setId_enquete($_GET['id']);
     $nbReponse = $reponseMapper->totalReponseByIdEnquete($reponse);
-    var_dump($nbReponse);
+    
     
     
     
