@@ -3,8 +3,11 @@ require_once 'autoload.php';
 require_once 'check_session.php';
 
 
-// suppression d'une enquête suivant son id
-if (isset($_GET['id'])) {
+/**********************************************
+ * DELETE enquête suivant id
+ */
+
+if (isset($_GET['delete'])) {
 
     $enquete = new Entity\Enquete();
     $question = new Entity\Question();
@@ -33,6 +36,25 @@ if (isset($_GET['id'])) {
     $enqueteMapper->deleteEnqueteById($enquete);
     
     header("Location: ../member.php");
+}
+
+/**********************************************
+ * UPDATE enquête suivant id
+ */
+if (isset($_GET['update'])) {
+    $question = new \Entity\Question();
+    $question->setId_enquete($_GET['id']);
+    $questionMapper = new Mapper\QuestionMapper();
+    $results = $questionMapper->getQuestionsByIdEnquete($question);
+    
+    //var_dump($results);
+    $jsonPath = "../js/list_results.js";
+    unlink($jsonPath);
+    if($results) {
+        file_put_contents($jsonPath, json_encode($results));
+    }
+    
+    header("Location: ../enquete.php?id=" . $_GET['id']);
 }
 
 // suppression du compte utilisateur
@@ -65,7 +87,9 @@ if (isset($_GET['id'])) {
 //    header("Location: ../index.php");
 //}
 
-// suppression du compte utilisateur
+/**********************************************
+ * DELETE compte utilisateur
+ */
 if (isset($_POST['delete'])) {
     
     $utilisateur = new Entity\Utilisateur();

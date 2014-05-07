@@ -59,8 +59,8 @@ $listEnquetes = $enqueteMapper->getEnqueteByIdUtilisateur($enquete, $pagination)
                                 <td><div><?= $value['titre'] ?></div></td>
                                 <td><a class="btn btn-default btn-sm" href="enquete.php">Voir l'enquête</a></td>
                                 <td><a value="<?= htmlspecialchars($value['id_enquete']) ?>" class="btn btn-default btn-sm" href="resultats.php?id=<?= htmlspecialchars($value['id_enquete']) ?>">Résultats</a></td>
-                                <td><a value="<?= htmlspecialchars($value['id_enquete']) ?>" class="btn btn-warning btn-sm" href="enquete.php?id=<?= htmlspecialchars($value['id_enquete']) ?>">Modifier</a></td>
-                                <td><a value="<?= htmlspecialchars($value['id_enquete']) ?>" class="btn btn-danger btn-sm" href="member.php?id=<?= htmlspecialchars($value['id_enquete']) ?>">Supprimer</a></td>
+                                <td><a value="<?= htmlspecialchars($value['id_enquete']) ?>" class="btn btn-warning btn-sm" href="./includes/common.php?update&id=<?= htmlspecialchars($value['id_enquete']) ?>">Modifier</a></td>
+                                <td><a value="<?= htmlspecialchars($value['id_enquete']) ?>" class="btn btn-danger btn-sm" href="./includes/common.php?delete&id=<?= htmlspecialchars($value['id_enquete']) ?>">Supprimer</a></td>
                             </tr>
                         <?php endforeach; ?>
                     </table>

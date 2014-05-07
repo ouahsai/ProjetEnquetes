@@ -32,42 +32,44 @@ if (isset($_GET['id'])) {
     </head>
 
     <body>
-        <div class="container">
-
-            <div class="page-header">
-                <h1 class="">Resultat de l'enquête</h1>
+        <div class="results container">
+            <div class="page-header clearfix">
+                <div class="user clearfix">
+                    <img src="img/users_default.png" alt="photo profil" title="Photo profil" height="52" width="52">
+                    <div class="block-user">
+                        <h4>Utilisateur connecté : <?= htmlspecialchars($_SESSION["nom"] ." ". $_SESSION["prenom"]) ?></h4>
+                        <form id="account" action="./includes/common.php" method="post">
+                            <a class="btn btn-default btn-xs" href="index.php">Modifier compte</a>
+                            <a class="btn btn-default btn-xs" href="" data-toggle="modal" data-target="#myModal">Supprimer compte</a><input type="hidden" name="delete">
+                            <a class="btn btn-default btn-xs" href="deconnexion.php">Deconnexion</a>
+                        </form>
+                    </div>
+                </div>
+                <h1>Resultat de l'enquête</h1>
             </div>
-            <div>
-                <a class="btn btn-default btn-xs" href="member.php">Page membre</a>
-                <a class="btn btn-default btn-xs" href="deconnexion.php">Deconnexion</a>
-            </div>
+            
             <div class="row">
                 <div class="col-md-6">
                     <div class="page-header">
                         <h3> Titre enquete : <?php echo $nbReponse[0]['titre']; ?></h3>
                         <h4>Description :</h4><p><?php echo $nbReponse[0]['description']; ?></p>
                     </div>
-
                 </div>
-
             </div>
+            
             <div class="row">
                 <div class="col-md-12">
                     <h5>Total de répondants : <?php echo $nbReponse[0]['nb_reponse']; ?></h5>
                     <?php if ($nbReponse[0]['nb_reponse'] > 0): ?>
 
 
-
-
-
-    <?php foreach ($questions as $question): ?>
+                            <?php foreach ($questions as $question): ?>
                             <h3>Question :  <?php echo $question['libelle_question'];
-        $reponse->setId_question($question['id_question']);
-        ?></h3>
+                                    $reponse->setId_question($question['id_question']);
+                            ?></h3>
                                 <?php if ($question['libelle_type_question'] === 'Nombre'):
-
                                     $reponseQuestion = $reponseMapper->reponseQuestionNumerique($reponse);
-                                    ?>
+                                ?>
                                 <p>réponse:  <ul><?php foreach ($reponseQuestion as $value): ?>
                                         <li>Valeur minimum :&nbsp<?php echo $value['min_value']; ?></li>
                                         <li>Valeur maximale :&nbsp<?php echo $value['max_value']; ?></li>
@@ -75,7 +77,6 @@ if (isset($_GET['id'])) {
                                         <li>Somme des réponses :&nbsp<?php echo $value['total']; ?></li>
                                     <?php endforeach; ?>
                                 </ul></p>
-
 
                             <?php elseif ($question['libelle_type_question'] === 'QCM'):
 
@@ -108,13 +109,13 @@ if (isset($_GET['id'])) {
                                 </p>
 
 
-                            <?php endif; ?>
-    <?php endforeach; ?>
-<?php else : ?> 
-                        <div class="alert alert-danger">
-                            <p><?= $message ?></p>
-                        </div>
-<?php endif; ?>
+                        <?php endif; ?>
+                            <?php endforeach; ?>
+                            <?php else : ?> 
+                                <div class="alert alert-danger">
+                                    <p><?= $message ?></p>
+                                </div>
+                        <?php endif; ?>
 
                 </div>
             </div>

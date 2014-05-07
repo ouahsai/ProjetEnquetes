@@ -16,10 +16,11 @@
 .survey .controls .validation { text-align: right; padding-top: 20px; }
 .survey .controls .info { display: block; margin-bottom: 30px; }
 
-.member .user { float: right; margin-right: 36px; }
-.member .user img { float: left; margin: 10px 15px 0; }
-.member .user .block-user { float: left; }
-.member > h4 { margin-bottom: 30px; }
+.user { float: right; margin-right: 36px; }
+.user img { float: left; margin: 10px 15px 0; }
+.user .block-user { float: left; }
+.user > h4 { margin-bottom: 30px; }
+
 .member .table-container { min-height: 320px; }
 .member table { margin-bottom: 40px; }
 .member table td:first-child { width:62%; padding-right:30px; vertical-align:middle; font-size:0.9em; }

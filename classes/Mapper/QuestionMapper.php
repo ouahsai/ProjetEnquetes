@@ -76,19 +76,29 @@ class QuestionMapper
             return false;
         }
     } 
-   
+    
+    
+    //TODO : changer le nom de la méthode, on récupère les questions (avec type et qcm) + les enquêtes 
     public function getQuestionsByIdEnquete(\Entity\Question $question)
     {
-        $query = "SELECT q.libelle_question, q.id_question, t.libelle_type_question
+        $query = "SELECT e.titre, e.description, 
+                         q.libelle_question, q.id_question, t.libelle_type_question, 
+                         qc.valeur_qcm
                   FROM question q
                   INNER JOIN type_question t ON t.id_type_question = q.id_type_question
-                  WHERE id_enquete = :id_enquete";
+                  LEFT OUTER JOIN qcm qc ON qc.id_question = q.id_question
+                  INNER JOIN enquete e ON e.id_enquete = q.id_enquete
+                  WHERE q.id_enquete = :id_enquete";
         
         $stmt = $this->_pdo->prepare($query);
         $stmt->bindValue("id_enquete", $question->getId_enquete());
         $stmt->execute();
         
         $listQuestion = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        
+        if(!$listQuestion) {
+            return false;
+        }
         
         return $listQuestion;
     } 

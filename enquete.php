@@ -9,30 +9,22 @@ require_once './includes/check_session.php';
 $message = "";
     
 //var_dump($_POST["question"]);
-$listMessages = [
-    "Vous devez renseigner un titre d'enquête",
-    "Vous devez définir au minimum une question",
-    "Vous devez choisir un type de réponse associé à la question"
-];
-
-// mandatory fields
-if (!isset($_POST["title"]) || empty($_POST["title"])) {
-    $message = $listMessages[0];
-}
-
-//foreach($_POST["question"] as $key => $value){
-//    if(!isset($value)){ $message = $listMessages[1]; }
+//$listMessages = [
+//    "Vous devez renseigner un titre d'enquête",
+//    "Vous devez définir au minimum une question",
+//    "Vous devez choisir un type de réponse associé à la question"
+//];
+//
+//// mandatory fields
+//if (!isset($_POST["title"]) || empty($_POST["title"])) {
+//    $message = $listMessages[0];
 //}
-//foreach($_POST["type"] as $key => $value){
-//    if(!isset($value)){ $message = $listMessages[2]; }
+//if (!isset($_POST["question"]) || empty($_POST["question"])) {
+//    $message = $listMessages[1];
 //}
-
-if (!isset($_POST["question"]) || empty($_POST["question"])) {
-    $message = $listMessages[1];
-}
-if (!isset($_POST["type"]) || empty($_POST["type"])) {
-    $message = $listMessages[2];
-}
+//if (!isset($_POST["type"]) || empty($_POST["type"])) {
+//    $message = $listMessages[2];
+//}
 
 /**********************************************
  * INSERT
@@ -93,13 +85,6 @@ if (!array_diff($check_array, array_keys($_POST))) {
     exit();
 }
 
-/**********************************************
- * UPDATE
- */
-if (isset($_GET['id'])) {
-    
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -157,22 +142,22 @@ if (isset($_GET['id'])) {
                             <div class="entry">
                                 <div>
                                     <div class="input-group col-xs-7">
-                                        <input class="form-control" name="question[]" type="text" placeholder="Votre Question" />
+                                        <input class="form-control inputQuestion" name="question[]" type="text" placeholder="Votre Question" />
                                         <span class="input-group-btn">
                                             <button class="btn btn-default btn-add" type="button">
                                                 <span class="glyphicon glyphicon-plus"></span>
                                             </button>
                                         </span>
                                     </div>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"></button>
+                                    <div class="btn-group list">
+                                        <button type="button" class="btn btn-default dropdown-toggle buttonType" data-toggle="dropdown"></button>
                                         <ul class="dropdown-menu" role="menu">
-                                            <?php
-                                            foreach ($libelle_type_question as $value) : ?>
+                                            <?php foreach ($libelle_type_question as $value) : ?>
                                                 <li><a href="#"><?php echo $value['libelle_type_question']; ?></a></li>
                                             <?php endforeach; ?>
-                                            <input type="hidden" class="hidden" name="type[]">
+                                            <li><input type="hidden" class="hidden" name="type[]"></li>
                                         </ul>
+                                        
                                     </div>
                                 </div>
                                 <div class="clearfix qcm">
@@ -192,7 +177,7 @@ if (isset($_GET['id'])) {
                             </div>
 
                             <div class="form-group validation">
-                                <input type="submit" class="btn btn-primary" value="Soumettre l'enquête">
+                                <input type="submit" class="btn btn-primary" value="<?= $text = isset($_GET["id"]) ? "Modifier l'enquête" : "Soumettre l'enquête" ?>">
                             </div>
                         </form>
                     </div>
@@ -203,5 +188,53 @@ if (isset($_GET['id'])) {
         <script src="js/jquery-1.11.0.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/controls.js"></script>
+        
+        <?php if(isset($_GET["id"])) : ?>
+        <script>
+        $.getJSON('./js/list_results.js', function(response) {
+            
+            var caret = "&nbsp;<span class='caret'></span>";
+            var id_question;
+
+            $.each(response, function(index, value){
+
+                id_question = value.id_question;
+
+                if (value.id_question === id_question) {
+
+                    //console.log(value.id_question);
+                    //console.log(value.valeur_qcm);
+                    $('.controls').find('.inputQuestion').eq(index).val(value.libelle_question);
+                    $('.controls').find('.list .buttonType')
+                             .eq(index).html(value.libelle_type_question + caret);
+                }
+
+
+    //            if (value.libelle_type_question === "QCM") {
+    //                
+    //                
+    ////                    for(var i=0; i<id_question.length; i++){
+    ////                        $('.btn-add-qcm').trigger('click');
+    ////                    }
+    //                    console.log(id_question); //2
+    //                    //console.log(value.valeur_qcm); //3
+    //                    if (index === response.length - 1) return false;
+    //                    $('.list a').trigger('click');
+    //                
+    //                
+    //            }
+
+                if (index === response.length - 1) return false;
+                $('.btn-add').trigger('click');
+            });
+
+            var title = $('#inputTitle'),
+                description = $('#textareaDescription');
+            
+            title.val(response[0].titre);
+            description.html(response[0].description);
+        });
+        </script>
+        <?php endif; ?>
     </body>
 </html>
