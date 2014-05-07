@@ -49,19 +49,19 @@ if (isset($_SESSION['user_id'])) {
                         <div class="form-group">
                             <label class="col-sm-4 control-label" for="lastname">Nom * :</label>
                             <div class="col-sm-6">
-                                <input class="form-control" type="text" name="lastname" id="lastname" placeholder="<?php echo $infoUtilisateur[0]['NOM'];?>" required>
+                                <input class="form-control" type="text" name="lastname" id="lastname" value="<?php echo $infoUtilisateur[0]['NOM'];?>" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label" for="firstname">Prenom * :</label>
                             <div class="col-sm-6">
-                                <input class="form-control" type="text" name="firstname" id="firstname" placeholder="<?php echo $infoUtilisateur[0]['PRENOM'];?>" required>
+                                <input class="form-control" type="text" name="firstname" id="firstname" value="<?php echo $infoUtilisateur[0]['PRENOM'];?>" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label" for="join_email">Identifiant (e-mail) * :</label>
                             <div class="col-sm-6">
-                                <input class="form-control" type="email" name="join_email" id="join_email" placeholder="<?php echo $infoUtilisateur[0]['EMAIL'];?>" required>
+                                <input class="form-control" type="email" name="join_email" id="join_email" value="<?php echo $infoUtilisateur[0]['EMAIL'];?>" required>
                             </div>
                         </div>
                        <div class="form-group">
