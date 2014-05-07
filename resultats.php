@@ -9,10 +9,11 @@ if (isset($_GET['id'])) {
     $reponseMapper = new Mapper\ReponseMapper();
     $reponse->setId_enquete($_GET['id']);
     $nbReponse = $reponseMapper->totalReponseByIdEnquete($reponse);
+    var_dump($nbReponse);
     
     
     
-    if ($nbReponse[0]['nb_reponse'] > 0) {
+    if ($nbReponse['nb_reponse'] > 0) {
         $question = new Entity\Question();
         $questionMapper = new Mapper\QuestionMapper();
         $question->setId_enquete($_GET['id']);
@@ -51,8 +52,8 @@ if (isset($_GET['id'])) {
             <div class="row">
                 <div class="col-md-6">
                     <div class="page-header">
-                        <h3> Titre enquete : <?php echo $nbReponse[0]['titre']; ?></h3>
-                        <h4>Description :</h4><p><?php echo $nbReponse[0]['description']; ?></p>
+                        <h3> Titre enquete : <?php echo $nbReponse['titre']; ?></h3>
+                        <h4>Description :</h4><p><?php echo $nbReponse['description']; ?></p>
                     </div>
 
                 </div>
@@ -60,8 +61,8 @@ if (isset($_GET['id'])) {
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <h5>Total de répondants : <?php echo $nbReponse[0]['nb_reponse']; ?></h5>
-                    <?php if ($nbReponse[0]['nb_reponse'] > 0): ?>
+                    <h5>Total de répondants : <?php echo $nbReponse['nb_reponse']; ?></h5>
+                    <?php if ($nbReponse['nb_reponse'] > 0): ?>
 
 
 

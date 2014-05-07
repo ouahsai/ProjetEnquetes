@@ -46,7 +46,7 @@ class ReponseMapper
         if(!$succes) {
             return false;
         }
-        $nb_reponse = $stmt->fetchall(\PDO::FETCH_ASSOC);
+        $nb_reponse = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $nb_reponse;
     } 
     
