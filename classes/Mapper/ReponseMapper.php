@@ -11,9 +11,22 @@ class ReponseMapper
         $this->_pdo = \Manager\PDO::pdoConnection();
     }
     
-    public function add()
+    public function add(\Entity\Reponse $reponse)
     {
-       
+       $query = "INSERT INTO reponse (id_question, valeur_reponse, unique_user_id)
+                  VALUES (:id_question, :valeur_reponse, :unique_user_id)";
+        
+        $stmt = $this->_pdo->prepare($query);
+        
+        $stmt->bindValue(":id_question", $reponse->getId_question());
+        $stmt->bindValue(":valeur_reponse", $reponse->getValeur_reponse());
+        $stmt->bindValue(":unique_user_id", uniqid());
+        
+        $succes = $stmt->execute();
+        
+        if(!$succes) {
+            return false;
+        } 
     }
     
     public function totalReponseByIdEnquete(\Entity\Reponse $reponse)
@@ -74,7 +87,8 @@ class ReponseMapper
                   MIN( CAST( r.VALEUR_REPONSE AS SIGNED ) ) AS min_value,
                   MAX( CAST( r.VALEUR_REPONSE AS SIGNED ) ) AS max_value,
                   AVG( CAST( r.VALEUR_REPONSE AS SIGNED ) ) AS avg_value,
-                  SUM( CAST( r.VALEUR_REPONSE AS SIGNED ) ) AS total
+                  SUM( CAST( r.VALEUR_REPONSE AS SIGNED ) ) AS total,
+                  r.VALEUR_REPONSE
                   FROM reponse r
                   INNER JOIN question q ON q.id_question = r.id_question
                   INNER JOIN enquete e ON e.id_enquete = q.id_enquete

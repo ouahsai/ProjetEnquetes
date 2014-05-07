@@ -1,6 +1,7 @@
 <?php
 require_once './includes/autoload.php';
 require_once './includes/check_session.php';
+require_once './includes/phpgraphlib.php';
 
 if (isset($_GET['id'])) {
 
@@ -9,11 +10,17 @@ if (isset($_GET['id'])) {
     $reponse->setId_enquete($_GET['id']);
     $nbReponse = $reponseMapper->totalReponseByIdEnquete($reponse);
     
+    
+    
     if ($nbReponse[0]['nb_reponse'] > 0) {
         $question = new Entity\Question();
         $questionMapper = new Mapper\QuestionMapper();
         $question->setId_enquete($_GET['id']);
         $questions = $questionMapper->getQuestionsByIdEnquete($question);
+        var_dump($questions);
+        
+        
+        ;
     } else {
         //todo message si pas de reponses
         $message = "Il n'y a pas de reponse à cette enquete !!";
@@ -75,6 +82,17 @@ if (isset($_GET['id'])) {
                                         <li>Valeur maximale :&nbsp<?php echo $value['max_value']; ?></li>
                                         <li>Moyenne des réponses :&nbsp<?php echo abs($value['avg_value']); ?></li>
                                         <li>Somme des réponses :&nbsp<?php echo $value['total']; ?></li>
+                                        <?php 
+                                        //$graph = new PHPGraphLib(400,300);
+                                      // $graph->setTitle("Test Scores");
+                                        //$graph->setTextColor("blue");
+                                       // $data = array("Alex"=>99, "Mary"=>98, "Joan"=>70, "Ed"=>90);
+                                       // $graph->addData($data);
+                                       // $graph->createGraph();
+                                        
+                                        ?>
+                                        
+                                        
                                     <?php endforeach; ?>
                                 </ul></p>
 

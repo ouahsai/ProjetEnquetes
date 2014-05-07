@@ -89,7 +89,7 @@ class UtilisateurMapper
     public function updateProfilByIdUtilisateur(\Entity\Utilisateur $utilisateur)
     {        
         $query = "UPDATE utilisateur 
-                  SET (nom = :nom, prenom = :prenom, email = :email, password = :password)
+                  SET (NOM = :nom, PRENOM = :prenom, EMAIL = :email, PASSWORD = :password)
                   WHERE id_utilisateur = :id_utilisateur";
         
         $stmt = $this->_pdo->prepare($query);
@@ -97,7 +97,7 @@ class UtilisateurMapper
         $stmt->bindValue(":prenom", $utilisateur->getPrenom());
         $stmt->bindValue(":email", $utilisateur->getEmail());
         $stmt->bindValue(":password", $this->_encryptPwd($utilisateur->getPassword()));
-        $stmt->bindValue(":id_utilisateur", $_SESSION['user_id']);
+        $stmt->bindValue(":id_utilisateur", $utilisateur->getId_utilisateur());
         
         $succes = $stmt->execute();
         
@@ -122,5 +122,21 @@ class UtilisateurMapper
         if(!$succes) {
             return false;
         }
+    }
+    public function GetAllUtilisateurByIdUtilisateur(\Entity\Utilisateur $utilisateur)
+    {        
+        $query = "SELECT *
+                  FROM utilisateur
+                  WHERE id_utilisateur = :id_utilisateur";
+        
+        $stmt = $this->_pdo->prepare($query);
+        $stmt->bindValue(":id_utilisateur", $utilisateur->getId_utilisateur());
+        $succes = $stmt->execute();
+        
+        if(!$succes) {
+            return false;
+        }
+        $donneesUtilisateur = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $donneesUtilisateur;
     }
 }
